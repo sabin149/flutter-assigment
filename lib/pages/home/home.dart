@@ -16,8 +16,7 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Post Information'),
       ), 
-      body: Text("home page")
-  
+      body:Text("home"),
   );
-}}
-
+}
+}

@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           title: 'Social Media App',
           theme: value.getTheme(),
          
-          initialRoute:'/login',
+          initialRoute:'/',
           routes: {
 
             '/': (context) => const BottomNavigationbar(),
