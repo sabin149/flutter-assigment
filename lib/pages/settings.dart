@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:motion_toast/motion_toast.dart';
 import "package:provider/provider.dart";
 import '../theme.dart';
 
@@ -11,7 +10,7 @@ class Settings extends StatefulWidget {
 }
 
 class _SettingsState extends State<Settings> {
- 
+  final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,14 +19,35 @@ class _SettingsState extends State<Settings> {
         actions: [
           IconButton(
             icon: const Icon(Icons.brightness_6),
-            // color: Colors.white,
             onPressed: () {
               Provider.of<ThemeProvider>(context, listen: false).swapTheme();
             },
           )
         ],
       ),
-      body: Text("settings page")
+      body: Form(
+        key: _formkey,
+        child: Column(
+          children: [
+            ElevatedButton.icon(
+               onPressed: ()  {
+                   
+                  
+                },
+              icon: const Icon(
+                Icons.logout_outlined,
+                size: 25,
+              ),
+              label: const Text(
+                "Logout",
+                style: TextStyle(
+                  fontSize: 25,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

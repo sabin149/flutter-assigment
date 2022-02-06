@@ -5,10 +5,15 @@ import 'package:frontend/pages/search.dart';
 import 'package:frontend/pages/settings.dart';
 import 'package:frontend/pages/upload.dart';
 import '/pages/login.dart';
+import 'http/httpuser.dart';
 import 'pages/bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import './theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+
+  String mytoken = HttpConnectUser.token;
+  
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +42,9 @@ class MyApp extends StatelessWidget {
           title: 'Social Media App',
           theme: value.getTheme(),
          
-          initialRoute:'/',
+          initialRoute:'/login',
+          // initialRoute: mytoken==" "? '/login' : '/',
+
           routes: {
 
             '/': (context) => const BottomNavigationbar(),

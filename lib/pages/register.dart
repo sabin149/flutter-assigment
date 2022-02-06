@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:motion_toast/motion_toast.dart';
-
+import '/http/httpuser.dart';
+import '../model/user_model.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -17,6 +18,10 @@ class _RegisterState extends State<Register> {
   String password = '';
   String email = '';
 
+  Future<bool> registerUser(User u) {
+    var res = HttpConnectUser().registerPost(u);
+    return res;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,14 +108,29 @@ class _RegisterState extends State<Register> {
                     minimumSize: const Size(double.infinity, 50),
                   ),
                   onPressed: () async {
-                    if (_regform.currentState!.validate()) 
+                    if (_regform.currentState!.validate()) {
                       _regform.currentState!.save();
+                      User u = User(
+                          fullname: fullname,
+                          email: email,
+                          username: username,
+                          password: password);
+
+                      bool isCreated = await registerUser(u);
+                      if (isCreated) {
                         _regform.currentState!.reset();
                         Navigator.pushNamed(context, '/login');
-
-                   
+                        MotionToast.success(
+                                description: const Text('New user created'))
+                            .show(context);
+                      } else {
+                        MotionToast.error(
+                                description:
+                                    const Text('Failed to create user'))
+                            .show(context);
+                      }
                     }
-                  ,
+                  },
                   child: const Text('Register'),
                 ),
               ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:frontend/http/httpuser.dart';
 import 'package:motion_toast/motion_toast.dart';
 
 class Login extends StatefulWidget {
@@ -14,12 +15,17 @@ class _LoginState extends State<Login> {
   String email = "";
   String password = "";
 
+  Future<bool> loginPost(String username, String password) {
+    var res = HttpConnectUser().loginPosts(username, password);
+    return res;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login Screen"),
+        
       ),
       body: Form(
         key: _formkey,
@@ -83,6 +89,8 @@ class _LoginState extends State<Login> {
                 onPressed: () async {
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
+                    var res = await loginPost(email, password);
+                    if (res) {
                       _formkey.currentState!.reset();
                       Navigator.pushNamed(context, '/');
                       MotionToast.success(
@@ -94,7 +102,7 @@ class _LoginState extends State<Login> {
                           .show(context);
                     }
                   }
-                ,
+                },
                 child: const Text("Login"),
               ),
               Row(
