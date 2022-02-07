@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:motion_toast/motion_toast.dart';
 import "package:provider/provider.dart";
+import '../http/httpuser.dart';
 import '../theme.dart';
 
 class Settings extends StatefulWidget {
@@ -11,6 +13,11 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   final _formkey = GlobalKey<FormState>();
+
+   Future<bool> logoutUser() {
+    var res = HttpConnectUser().logout();
+    return res;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +26,7 @@ class _SettingsState extends State<Settings> {
         actions: [
           IconButton(
             icon: const Icon(Icons.brightness_6),
+            // color: Colors.white,
             onPressed: () {
               Provider.of<ThemeProvider>(context, listen: false).swapTheme();
             },
@@ -30,8 +38,18 @@ class _SettingsState extends State<Settings> {
         child: Column(
           children: [
             ElevatedButton.icon(
-               onPressed: ()  {
-                   
+               onPressed: () async {
+                    var res = await logoutUser();
+                    if (res) {
+                      Navigator.pushNamed(context, '/login');
+                      MotionToast.success(
+                              description: const Text('Logout Successfully'))
+                          .show(context);
+                    } else {
+                      MotionToast.error(
+                              description: const Text('Logout Failed'))
+                          .show(context);
+                    }
                   
                 },
               icon: const Icon(
