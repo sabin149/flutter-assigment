@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import '../model/user_model.dart';
-import '/response/user_resp.dart';
+import '/response/user_resp.dart'; 
 
 
 class HttpConnectUser {

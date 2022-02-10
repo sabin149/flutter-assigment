@@ -12,8 +12,8 @@ import './theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
  
-  String mytoken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjc3YTlmYzI5MTFjYTQ5NGJlOTkxYyIsImlhdCI6MTY0NDgyMTYzNywiZXhwIjoxNjQ0OTA4MDM3fQ.-iGFPTvv4slkjnCplfscd0fRMhRVLnSHGuCa7u8gZb0";
-  // String mytoken = HttpConnectUser.token;
+  // String mytoken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjc3YTlmYzI5MTFjYTQ5NGJlOTkxYyIsImlhdCI6MTY0NDgyMTYzNywiZXhwIjoxNjQ0OTA4MDM3fQ.-iGFPTvv4slkjnCplfscd0fRMhRVLnSHGuCa7u8gZb0";
+  String mytoken = HttpConnectUser.token;
   
 
 void main() {
@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
           title: 'Social Media App',
           theme: value.getTheme(),
          
-          // initialRoute:'/login',
-          initialRoute: mytoken==" "? '/login' : '/',
+          initialRoute:'/login',
+          // initialRoute: mytoken==" "? '/login' : '/',
 
           routes: { 
  
