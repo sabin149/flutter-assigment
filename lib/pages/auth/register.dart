@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '/http/httpuser.dart';
-import '../model/user_model.dart';
+import '../../model/user_model.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);

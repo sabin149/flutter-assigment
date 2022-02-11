@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/home/home.dart';
-import 'package:frontend/pages/register.dart';
+import 'package:frontend/pages/home/widgets/comment.dart';
+import 'package:frontend/pages/auth/register.dart';
 import 'package:frontend/pages/search.dart';
 import 'package:frontend/pages/settings.dart';
 import 'package:frontend/pages/upload.dart';
-import '/pages/login.dart';
+import 'pages/auth/login.dart';
 import 'http/httpuser.dart';
 import 'pages/bottom_navbar.dart'; 
 import 'package:provider/provider.dart';
@@ -55,6 +56,8 @@ class MyApp extends StatelessWidget {
             '/search': (context) => const Search(), 
             '/upload': (context) => const Upload(),
             '/settings': (context) => const Settings(),
+            '/comments': (context) => const Comments(),
+
           },
         );
       },

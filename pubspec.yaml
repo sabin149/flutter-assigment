@@ -44,6 +44,7 @@ dependencies:
   motion_toast: ^2.1.1
   flutter_svg: ^1.0.3
 
+
 dev_dependencies: 
   flutter_test:
     sdk: flutter

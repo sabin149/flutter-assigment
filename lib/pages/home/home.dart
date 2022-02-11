@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/http/httppost.dart';
 import 'package:frontend/model/post_model.dart';
-import 'package:frontend/pages/home/components/post_item.dart';
+import '/pages/home/widgets/post_item.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 class Home extends StatefulWidget {
@@ -11,25 +11,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  // late Future<List<PostModel>> futurePost;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   futurePost = HttpConnectPost().getPosts();
-  // }
   bool isApiCallProcess = false;
   @override
   void initState() {
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        
         backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
@@ -86,7 +78,6 @@ Widget postList(posts) {
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-            
               ListView.builder(
                 shrinkWrap: true, 
                 physics: const ClampingScrollPhysics(),
@@ -94,7 +85,7 @@ Widget postList(posts) {
                 itemCount: posts.length,
                 itemBuilder: (context, index) {
                   return PostItem(
-                      model:posts[index]
+                      post:posts[index]
                   );
                 },
               ),
@@ -104,47 +95,4 @@ Widget postList(posts) {
       ),
     );
   }
-}
-
-Widget userDetails(PostModel obj) {
-  return Card(
-    child: Row(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-                width: 3, color: const Color.fromARGB(255, 184, 183, 183)),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(55),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.white),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(55),
-                ),
-              ),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: 35,
-                child: Image.network(
-                  "${obj.user!.avatar}",
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Text(
-          "${obj.user!.username}",
-          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-      ],
-    ),
-  );
 }
