@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:frontend/http/httpuser.dart';
 import 'package:motion_toast/motion_toast.dart';
+import '../../services/httpuser.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -92,7 +92,8 @@ class _LoginState extends State<Login> {
                     var res = await loginPost(email, password);
                     if (res) {
                       _formkey.currentState!.reset();
-                      Navigator.pushNamed(context, '/');
+                      // Navigator.pushNamed(context, '/');
+                      Navigator.pushReplacementNamed(context, "/");
                       MotionToast.success(
                               description: const Text('Login Successfull'))
                           .show(context);

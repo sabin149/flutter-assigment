@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/home/home.dart';
 import 'package:frontend/pages/search.dart';
-import 'package:frontend/pages/settings.dart';
+import 'package:frontend/pages/profile/profile.dart';
 import 'package:frontend/pages/upload.dart';
 
 class BottomNavigationbar extends StatefulWidget {
@@ -10,14 +10,13 @@ class BottomNavigationbar extends StatefulWidget {
   @override
   _BottomNavigationbarState createState() => _BottomNavigationbarState(); 
 }
-
 class _BottomNavigationbarState extends State<BottomNavigationbar> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOption = [
     Home(),
     Search(),
     Upload(),
-    Settings()
+    Profile()
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -50,11 +49,11 @@ class _BottomNavigationbarState extends State<BottomNavigationbar> {
             ),
             label: 'Upload',
           ),
-          BottomNavigationBarItem(
+          BottomNavigationBarItem( 
             icon: Icon(
-              Icons.settings,
+              Icons.people,
             ),
-            label: 'Settings',
+            label: 'Profile',
           
           ),
         ],

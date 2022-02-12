@@ -1,20 +1,23 @@
+import '/model/user_model.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user_resp.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class ResponseUser {
-  bool? success;
-  String? token;
-  String? msg;
+  final bool success;
+  final String accesstoken;
+  final String msg;
+  final List<UserModel> user;
 
-  ResponseUser({this.success, this.token, this.msg});
+  ResponseUser(
+      {required this.user,
+      required this.success,
+      required this.accesstoken,
+      required this.msg});
 
-  factory ResponseUser.fromJson(Map<String, dynamic> json) {
-    return ResponseUser(
-      success: json['success'],
-      token: json['token'],
-      msg: json['msg'],
-    );
-  }
+  factory ResponseUser.fromJson(Map<String, dynamic> json) =>
+      _$ResponseUserFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ResponseUserToJson(this);
 }
-
-
- // factory named constructor -> when we have json map, json map bhayako bela matrai hamilae define gareko dart class  ko object banune bela yo method call huncha   
-
- // mathi ko factory named constructor->>>>>> jab tyo constructor sanga json ko object cha ra json ko object bata ResponseUser class ko object banune ho bhane matrai tyo bela ma yo constructor call huncha.  

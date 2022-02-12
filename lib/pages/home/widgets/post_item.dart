@@ -8,7 +8,7 @@ class PostItem extends StatelessWidget {
   const PostItem({
     Key? key,
     this.post,
-  }) : super(key: key);
+  }) : super(key: key); 
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +20,27 @@ class PostItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                '${post!.user!.avatar}',
+            leading: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/profile',arguments: post);
+              },
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(
+                  '${post!.user!.avatar}',
+                ), 
               ),
             ),
-            title: Text(
-              "${post!.user!.username}",
-              style: TextStyle(
-                  color: Colors.black.withOpacity(.8),
-                  fontWeight: FontWeight.w400,
-                  fontSize: 21),
+            title: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/profile',arguments: post);
+              },
+              child: Text(
+                "${post!.user!.username}", 
+                style: TextStyle(
+                    color: Colors.black.withOpacity(.8),
+                    fontWeight: FontWeight.w400,
+                    fontSize: 21),
+              ),
             ),
             trailing: const Icon(Icons.more_vert),
           ),
@@ -51,10 +61,12 @@ class PostItem extends StatelessWidget {
                       icon: const Icon(
                         Icons.favorite_border,
                         size: 31,
-                      ),
+                      ), 
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                           Navigator.pushNamed(context, '/comments');
+                      },
                       icon: const Icon(
                         Icons.comment,
                         size: 31,

@@ -6,7 +6,6 @@ part 'getpost_resp.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ResponseGetPost{
   final String msg;
-  
   final List<PostModel> posts;
 
   ResponseGetPost({
@@ -14,6 +13,7 @@ class ResponseGetPost{
     required this.posts,
   });
   
+
   factory ResponseGetPost.fromJson(Map<String, dynamic> json) =>
       _$ResponseGetPostFromJson(json);
 

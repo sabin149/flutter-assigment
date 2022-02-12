@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:frontend/model/user_model.dart';
+import 'package:frontend/pages/shared/config.dart';
 import 'package:http/http.dart';
-import '../model/user_model.dart';
 import '/response/user_resp.dart'; 
 
 
 class HttpConnectUser {
-  String baseurl = "http://10.0.2.2:5000/api/";
+  String baseurl = Config.apiURL;
   static String token = '';
 
 
-  Future<bool> registerPost(User user) async {
+  Future<bool> registerPost(UserModel user) async {
     Map<String, dynamic> userMap = {
       "fullname": user.fullname,
       "email": user.email,
@@ -21,7 +22,7 @@ class HttpConnectUser {
     final response = await post(Uri.parse(baseurl + 'register'), body: userMap);
     if (response.statusCode == 200) {
       var usrRes = ResponseUser.fromJson(jsonDecode(response.body));
-      return usrRes.success!;
+      return usrRes.success;
     } else {
       return false;
     }

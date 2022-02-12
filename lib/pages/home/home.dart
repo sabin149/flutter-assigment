@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/http/httppost.dart';
+import 'package:frontend/services/httppost.dart';
 import 'package:frontend/model/post_model.dart';
 import '/pages/home/widgets/post_item.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';

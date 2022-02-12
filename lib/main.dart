@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/home/home.dart';
-import 'package:frontend/pages/home/widgets/comment.dart';
-import 'package:frontend/pages/auth/register.dart';
-import 'package:frontend/pages/search.dart';
-import 'package:frontend/pages/settings.dart';
-import 'package:frontend/pages/upload.dart';
+import '/pages/home/home.dart';
+import '/pages/home/widgets/comment.dart';
+import '/pages/auth/register.dart';
+import '/pages/search.dart';
+import '/pages/profile/profile.dart';
+import '/pages/upload.dart';
 import 'pages/auth/login.dart';
-import 'http/httpuser.dart';
+import 'services/httpuser.dart';
 import 'pages/bottom_navbar.dart'; 
 import 'package:provider/provider.dart';
-import './theme.dart';
+import 'pages/shared/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
  
@@ -51,13 +51,12 @@ class MyApp extends StatelessWidget {
  
             '/': (context) => const BottomNavigationbar(),
             '/login': (context) => const Login(),
-            '/register': (context) => const Register(),
+            '/register': (context) => const Register(), 
             '/home': (context) => const Home(),
             '/search': (context) => const Search(), 
             '/upload': (context) => const Upload(),
-            '/settings': (context) => const Settings(),
+            '/profile': (context) => const Profile(),
             '/comments': (context) => const Comments(),
-
           },
         );
       },
