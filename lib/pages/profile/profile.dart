@@ -49,6 +49,7 @@ class _ProfileState extends State<Profile> {
                   children: [
                     Text(
                       "${model.user!.username}",
+                      // "user01",
                     
                       style: TextStyle(
                         color: blackColor,  
@@ -106,7 +107,7 @@ class _ProfileState extends State<Profile> {
                                     image:  DecorationImage( 
                                       fit: BoxFit.cover,
                                       image:  NetworkImage(
-                                        "${model.user!.avatar}", 
+                                        "xfdgc", 
 
                                       ),
                                     ),
@@ -145,7 +146,8 @@ class _ProfileState extends State<Profile> {
                       width: 100,
                       margin: const EdgeInsets.symmetric(horizontal: defaultMargin),
                       child: Text(
-                         "${model.user!.fullname}",
+                        //  "${model.user!.fullname}",
+                         "sdfghjh",
                         style: TextStyle(
                           fontWeight: medium,
                         ),
@@ -395,7 +397,8 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           Text(
-            "${post.user!.followers!.length}",
+            "sxdcfgvgh",
+            // "${post.user!.followers!.length}",
             style: TextStyle( 
               fontSize: 18,
               fontWeight: bold,
@@ -418,7 +421,8 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           Text(
-            "${post.user!.followers!.length}",
+            "sxdcfgvgh",
+            // "${post.user!.followers!.length}",
             style: TextStyle( 
               fontSize: 18,
               fontWeight: bold,
@@ -441,7 +445,8 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           Text(
-            "${post.user!.followers!.length}",
+            "sxdcfgvgh",
+            // "${post.user!.followers!.length}",
             style: TextStyle( 
               fontSize: 18,
               fontWeight: bold,

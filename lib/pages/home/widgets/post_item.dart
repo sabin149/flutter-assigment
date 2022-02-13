@@ -8,7 +8,7 @@ class PostItem extends StatelessWidget {
   const PostItem({
     Key? key,
     this.post,
-  }) : super(key: key); 
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class PostItem extends StatelessWidget {
                 Navigator.pushNamed(context, '/profile',arguments: post);
               },
               child: Text(
-                "${post!.user!.username}", 
+                "${post!.user!.username}",
                 style: TextStyle(
                     color: Colors.black.withOpacity(.8),
                     fontWeight: FontWeight.w400,
@@ -65,7 +65,7 @@ class PostItem extends StatelessWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                           Navigator.pushNamed(context, '/comments');
+                           Navigator.pushNamed(context, '/comments', arguments: post);
                       },
                       icon: const Icon(
                         Icons.comment,
@@ -117,7 +117,7 @@ class PostItem extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/comments');
+                    Navigator.pushNamed(context, '/comments',arguments: post);
                   },
                   child: Text("View all ${post!.comments!.length} comments",
                       style: const TextStyle(fontSize: 16)),

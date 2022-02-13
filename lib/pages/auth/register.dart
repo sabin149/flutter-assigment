@@ -117,7 +117,7 @@ class _RegisterState extends State<Register> {
                           email: email,
                           username: username,
                           password: password);
-
+ 
                       bool isCreated = await registerUser(u);
                       if (isCreated) {
                         _regform.currentState!.reset();

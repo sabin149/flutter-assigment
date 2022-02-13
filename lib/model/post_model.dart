@@ -26,7 +26,7 @@ class PostModel {
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add( Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
     if (json['likes'] != null) {
@@ -38,10 +38,10 @@ class PostModel {
     if (json['comments'] != null) {
       comments = <Comments>[];
       json['comments'].forEach((v) {
-        comments!.add( Comments.fromJson(v));
+        comments!.add(Comments.fromJson(v));
       });
     }
-    user = json['user'] != null ?  Likes.fromJson(json['user']) : null;
+    user = json['user'] != null ? Likes.fromJson(json['user']) : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -82,7 +82,7 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['public_id'] = publicId;
     data['url'] = url;
     return data;
@@ -107,7 +107,7 @@ class Likes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = sId;
     data['fullname'] = fullname;
     data['username'] = username;
@@ -120,14 +120,14 @@ class Likes {
 class Comments {
   String? sId;
   String? content;
-  List<Likes>? likes;
-  Likes? user;
+  List<CommentLikes>? likes;
+  CommentLikes? user;
   String? postId;
   String? postUserId;
   String? createdAt;
   String? updatedAt;
   int? iV;
-  Likes? tag;
+  CommentLikes? tag;
   String? reply;
 
   Comments(
@@ -147,23 +147,23 @@ class Comments {
     sId = json['_id'];
     content = json['content'];
     if (json['likes'] != null) {
-      likes = <Likes>[];
+      likes = <CommentLikes>[];
       json['likes'].forEach((v) {
-        likes!.add( Likes.fromJson(v));
+        likes!.add(CommentLikes.fromJson(v));
       });
     }
-    user = json['user'] != null ?  Likes.fromJson(json['user']) : null;
+    user = json['user'] != null ? CommentLikes.fromJson(json['user']) : null;
     postId = json['postId'];
     postUserId = json['postUserId'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
-    tag = json['tag'] != null ?  Likes.fromJson(json['tag']) : null;
+    tag = json['tag'] != null ? CommentLikes.fromJson(json['tag']) : null;
     reply = json['reply'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = sId;
     data['content'] = content;
     if (likes != null) {
@@ -244,7 +244,7 @@ class CommentLikes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['_id'] = sId;
     data['fullname'] = fullname;
     data['username'] = username;
