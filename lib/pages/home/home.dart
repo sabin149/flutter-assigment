@@ -78,6 +78,7 @@ Widget postList(posts) {
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+
               ListView.builder(
                 shrinkWrap: true, 
                 physics: const ClampingScrollPhysics(),

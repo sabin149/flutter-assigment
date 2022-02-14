@@ -107,8 +107,7 @@ class _ProfileState extends State<Profile> {
                                     image:  DecorationImage( 
                                       fit: BoxFit.cover,
                                       image:  NetworkImage(
-                                        "xfdgc", 
-
+                                        "${model.user!.avatar}"
                                       ),
                                     ),
                                   ),
@@ -146,8 +145,8 @@ class _ProfileState extends State<Profile> {
                       width: 100,
                       margin: const EdgeInsets.symmetric(horizontal: defaultMargin),
                       child: Text(
-                        //  "${model.user!.fullname}",
-                         "sdfghjh",
+                         "${model.user!.fullname}",
+                         
                         style: TextStyle(
                           fontWeight: medium,
                         ),
@@ -397,8 +396,8 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           Text(
-            "sxdcfgvgh",
-            // "${post.user!.followers!.length}",
+          
+            "${post.user!.followers!.length}",
             style: TextStyle( 
               fontSize: 18,
               fontWeight: bold,
@@ -421,8 +420,8 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           Text(
-            "sxdcfgvgh",
-            // "${post.user!.followers!.length}",
+            
+            "${post.user!.followers!.length}",
             style: TextStyle( 
               fontSize: 18,
               fontWeight: bold,
@@ -445,8 +444,8 @@ class _ProfileState extends State<Profile> {
       child: Column(
         children: [
           Text(
-            "sxdcfgvgh",
-            // "${post.user!.followers!.length}",
+           
+            "${post.user!.followers!.length}",
             style: TextStyle( 
               fontSize: 18,
               fontWeight: bold,

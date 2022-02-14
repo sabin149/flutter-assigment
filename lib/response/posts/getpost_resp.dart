@@ -1,7 +1,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-import '../model/post_model.dart';
+import '../../model/post_model.dart';
 
 part 'getpost_resp.g.dart';
 
