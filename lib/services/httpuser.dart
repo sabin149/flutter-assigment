@@ -72,6 +72,22 @@ class HttpConnectUser {
     return false;
   }
 
+ Future<List<UserModel>> getUserPosts(String id) async {
+    final response = await http.get(Uri.parse(baseurl + "user/" + id),
+        headers: {'Authorization': token});
+
+    try {
+      if (response.statusCode == 200) {
+        var res = ResponseGetUser.fromJson(jsonDecode(response.body));
+        return res.user;
+      } else {
+        throw Exception('Failed to get the user');
+      }
+    } catch (e) {
+      throw Exception('Failed to get the user');
+    }
+  }
+
 }
 
 
