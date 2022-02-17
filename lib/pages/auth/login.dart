@@ -89,8 +89,8 @@ class _LoginState extends State<Login> {
                 onPressed: () async {
                   if (_formkey.currentState!.validate()) {
                     _formkey.currentState!.save();
-                    var res = await loginPost(email, password);
-                    if (res) {
+                    await loginPost(email, password);
+                 
                       _formkey.currentState!.reset();
                       // Navigator.pushNamed(context, '/');
                       Navigator.pushReplacementNamed(context, "/");
@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
                       MotionToast.error(
                               description: const Text('Login UnSuccessfull'))
                           .show(context);
-                    }
+                    
                   }
                 },
                 child: const Text("Login"),

@@ -48,7 +48,7 @@ class PostModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
     data['content'] = content;
     if (images != null) {
@@ -82,7 +82,7 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['public_id'] = publicId;
     data['url'] = url;
     return data;
@@ -107,7 +107,7 @@ class Likes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
     data['fullname'] = fullname;
     data['username'] = username;
@@ -163,7 +163,7 @@ class Comments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
     data['content'] = content;
     if (likes != null) {
@@ -244,7 +244,7 @@ class CommentLikes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['_id'] = sId;
     data['fullname'] = fullname;
     data['username'] = username;

@@ -3,7 +3,7 @@ class UserModel {
   String? fullname;
   String? username;
   String? email;
-  String? password;
+  String? password; 
   String? avatar;
   String? role;
   String? gender;

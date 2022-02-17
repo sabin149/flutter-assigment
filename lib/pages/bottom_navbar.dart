@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/home/home.dart';
 import 'package:frontend/pages/search.dart';
 import 'package:frontend/pages/profile/profile.dart';
+import 'package:frontend/pages/shared/config.dart';
 import 'package:frontend/pages/upload.dart';
 
 class BottomNavigationbar extends StatefulWidget {
-  const BottomNavigationbar({Key? key}) : super(key: key);
 
+  const BottomNavigationbar({Key? key, String? token}) : super(key: key);
   @override
   _BottomNavigationbarState createState() => _BottomNavigationbarState(); 
 }
 class _BottomNavigationbarState extends State<BottomNavigationbar> {
+
+
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOption = [
-    Home(),
-    Search(),
-    Upload(),
-    Profile()
+  static  final List<Widget> _widgetOption = [
+    const Home(),
+    const Search(),
+    const Upload(),
+    const Profile(),
   ];
   void _onItemTapped(int index) {
     setState(() {
@@ -26,6 +29,7 @@ class _BottomNavigationbarState extends State<BottomNavigationbar> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: _widgetOption.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(

@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
+import '/pages/shared/config.dart';
+import '/pages/shared/homepage.dart';
 import '/pages/home/home.dart';
-import '/pages/home/widgets/comment.dart';
+import '/pages/comment/comment.dart';
 import '/pages/auth/register.dart';
 import '/pages/search.dart';
 import '/pages/profile/profile.dart';
 import '/pages/upload.dart';
 import 'pages/auth/login.dart';
-import 'services/httpuser.dart';
-import 'pages/bottom_navbar.dart'; 
+import 'pages/bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import 'pages/shared/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
- 
-  // String mytoken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxYjc3YTlmYzI5MTFjYTQ5NGJlOTkxYyIsImlhdCI6MTY0NDgyMTYzNywiZXhwIjoxNjQ0OTA4MDM3fQ.-iGFPTvv4slkjnCplfscd0fRMhRVLnSHGuCa7u8gZb0";
-  String mytoken = HttpConnectUser.token;
-  
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +22,7 @@ void main() {
         child: const MyApp(),
         create: (BuildContext context) {
           return ThemeProvider(isDarkTheme);
-        }, 
+        },
       ),
     );
   });
@@ -37,29 +33,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(
+
+   
+    return Consumer<ThemeProvider>( 
       builder: (context, value, child) {
-        return MaterialApp( 
+        return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Social Media App',
+          title: "Let's App",
           theme: value.getTheme(),
-         
-          initialRoute:'/login',
+          initialRoute: '/mainpage',
           // initialRoute: mytoken==" "? '/login' : '/',
 
-          routes: { 
- 
+          routes: {
             '/': (context) => const BottomNavigationbar(),
+            '/mainpage': (context) => const HomePage(),
             '/login': (context) => const Login(),
-            '/register': (context) => const Register(), 
-            '/home': (context) => const Home(),
-            '/search': (context) => const Search(), 
+            '/register': (context) => const Register(),
+            '/home': (context) => const Home(), 
+            '/search': (context) => const Search(),
             '/upload': (context) => const Upload(),
             '/profile': (context) => const Profile(),
             '/comments': (context) => const Comments(),
           },
         );
       },
-    ); 
+    );
   }
 }

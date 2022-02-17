@@ -5,17 +5,16 @@ import '/pages/home/widgets/post_item.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home( {Key? key}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
   bool isApiCallProcess = false;
   @override
   void initState() {
-    super.initState();
+    super.initState(); 
   }
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-
 Widget loadPosts() {
   return FutureBuilder(
     future: HttpConnectPost().getPosts(),
@@ -59,10 +57,11 @@ Widget loadPosts() {
       BuildContext context,
       AsyncSnapshot<List<PostModel>?> model,
     ) {
+
       if (model.hasData) {
         return postList(model.data);
       }
-      return const Center(
+      return const Center( 
         child: CircularProgressIndicator(),
       );
     },

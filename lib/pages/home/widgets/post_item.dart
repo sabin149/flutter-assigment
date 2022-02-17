@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:frontend/pages/shared/themes.dart';
 import '../../../model/post_model.dart';
 
-class PostItem extends StatelessWidget {
+class PostItem extends StatelessWidget { 
   final PostModel? post;
 
+  
   const PostItem({
     Key? key,
-    this.post,
+    this.post
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+  
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -20,7 +24,7 @@ class PostItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            leading: InkWell(
+            leading: InkWell( 
               onTap: () {
                 Navigator.pushNamed(context, '/profile',arguments: post);
               },
@@ -29,20 +33,24 @@ class PostItem extends StatelessWidget {
                   '${post!.user!.avatar}',
                 ), 
               ),
-            ),
+            ),  
             title: InkWell(
               onTap: () {
                 Navigator.pushNamed(context, '/profile',arguments: post);
               },
               child: Text(
                 "${post!.user!.username}",
-                style: TextStyle(
-                    color: Colors.black.withOpacity(.8),
+                style: TextStyle( 
+                    color: blackColor.withOpacity(.8), 
                     fontWeight: FontWeight.w400,
                     fontSize: 21),
               ),
             ),
-            trailing: const Icon(Icons.more_vert),
+            trailing:   InkWell(
+              onTap: () {
+                
+              },
+              child: Icon(FontAwesomeIcons.ellipsisV)),
           ),
           Image.network(
             "${post!.images![0].url}",
@@ -57,35 +65,37 @@ class PostItem extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.favorite_border,
-                        size: 31,
+                      onPressed: () {
+
+                      }, 
+                      icon:  const Icon(
+                        FontAwesomeIcons.heart,
+                        size: 30,
                       ), 
                     ),
                     IconButton(
                       onPressed: () {
                            Navigator.pushNamed(context, '/comments', arguments: post);
                       },
-                      icon: const Icon(
-                        Icons.comment,
-                        size: 31,
+                      icon:  const Icon(
+                        FontAwesomeIcons.comment,
+                        size: 30,
                       ),
                     ),
                     IconButton(
                       onPressed: () {},
-                      icon: const Icon(
-                        Icons.send,
+                      icon:  const Icon( 
+                        Icons.send_rounded,
                         size: 31,
-                      ),
+                      ), 
                     ),
-                  ],
+                  ], 
                 ),
                 IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.bookmark_border,
-                    size: 31,
+                  onPressed: () {}, 
+                  icon:  const Icon(
+                    FontAwesomeIcons.bookmark,
+                    size: 30,
                   ),
                 ),
               ],

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:frontend/model/user_model.dart';
 import 'package:motion_toast/motion_toast.dart';
-import '../../services/httpuser.dart';
 
+import '../../model/register_model.dart';
+import '../../services/httpuser.dart';
 
 
 class Register extends StatefulWidget {
@@ -20,7 +20,7 @@ class _RegisterState extends State<Register> {
   String password = '';
   String email = '';
 
-  Future<bool> registerUser(UserModel u) {
+  Future<bool> registerUser(User u) {
     var res = HttpConnectUser().registerPost(u);
     return res;
   }
@@ -87,7 +87,7 @@ class _RegisterState extends State<Register> {
                     border: OutlineInputBorder(),
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 20), 
                 TextFormField(
                   validator: MultiValidator([
                     RequiredValidator(errorText: 'Password is required'),
@@ -112,16 +112,16 @@ class _RegisterState extends State<Register> {
                   onPressed: () async {
                     if (_regform.currentState!.validate()) {
                       _regform.currentState!.save();
-                      UserModel u = UserModel(
+                      User u = User(
                           fullname: fullname,
                           email: email,
                           username: username,
                           password: password);
- 
+
                       bool isCreated = await registerUser(u);
                       if (isCreated) {
                         _regform.currentState!.reset();
-                        Navigator.pushReplacementNamed(context, '/login');
+                        Navigator.pushNamed(context, '/login');
                         MotionToast.success(
                                 description: const Text('New user created'))
                             .show(context);
