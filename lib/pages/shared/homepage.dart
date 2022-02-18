@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getToken();
+
   }
 
 
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
       });
     } else {
       Future.delayed(Duration.zero, () {
+   
         Navigator.pushReplacementNamed(context, '/', );
        
       });

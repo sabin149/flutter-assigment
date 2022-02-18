@@ -94,7 +94,7 @@ class _UploadState extends State<Upload> {
         
           // picPicker(
           //   isImageSelected,
-          //      postModel!.images[0].url??"",
+          //      postModel!.images![0].url??"",
           //   (file) => {
           //     setState(
           //       () {
@@ -163,8 +163,6 @@ class _UploadState extends State<Upload> {
       ),
     );
   }
-
-
   bool validateAndSave() {
     final form = globalFormKey.currentState;
     if (form!.validate()) {

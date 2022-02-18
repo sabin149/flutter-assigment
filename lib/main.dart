@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/pages/profile/settings.dart';
 import '/pages/shared/config.dart';
 import '/pages/shared/homepage.dart';
 import '/pages/home/home.dart';
@@ -38,12 +39,12 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>( 
       builder: (context, value, child) {
         return MaterialApp(
+            // visualDensity: VisualDensity.adaptivePlatformDensity,
           debugShowCheckedModeBanner: false,
           title: "Let's App",
           theme: value.getTheme(),
           initialRoute: '/mainpage',
           // initialRoute: mytoken==" "? '/login' : '/',
-
           routes: {
             '/': (context) => const BottomNavigationbar(),
             '/mainpage': (context) => const HomePage(),
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
             '/search': (context) => const Search(),
             '/upload': (context) => const Upload(),
             '/profile': (context) => const Profile(),
+            '/settings': (context) => const Settings(),
             '/comments': (context) => const Comments(),
           },
         );

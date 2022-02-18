@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/services/httppost.dart';
 import 'package:frontend/model/post_model.dart';
+import '../shared/config.dart';
 import '/pages/home/widgets/post_item.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
@@ -14,6 +15,7 @@ class _HomeState extends State<Home> {
   bool isApiCallProcess = false;
   @override
   void initState() {
+  Config.loadToken();
     super.initState(); 
   }
   @override

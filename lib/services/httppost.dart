@@ -16,8 +16,7 @@ class HttpConnectPost {
         headers: {'Authorization': mytoken});
     try {
       if (response.statusCode == 200) {
-        Config.loadUserId();
-        Config.loadToken();
+     
 
         var res = ResponseGetPost.fromJson(jsonDecode(response.body));
         return res.posts;

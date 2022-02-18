@@ -5,8 +5,6 @@ import '../../../model/post_model.dart';
 
 class PostItem extends StatelessWidget { 
   final PostModel? post;
-
-  
   const PostItem({
     Key? key,
     this.post
@@ -14,8 +12,6 @@ class PostItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-  
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
@@ -50,7 +46,7 @@ class PostItem extends StatelessWidget {
               onTap: () {
                 
               },
-              child: Icon(FontAwesomeIcons.ellipsisV)),
+              child: const Icon(FontAwesomeIcons.ellipsisV)),
           ),
           Image.network(
             "${post!.images![0].url}",

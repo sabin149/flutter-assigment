@@ -45,6 +45,7 @@ class HttpConnectUser {
         final jsonData = jsonDecode(response.body) as Map;
         authtoken = jsonData['access_token'];
         prefs!.setString('token', authtoken);
+         
       }
     } catch (e) {
       if (kDebugMode) {
@@ -54,21 +55,16 @@ class HttpConnectUser {
     return false;
   }
 
-  Future<bool> logout() async {
+  static Future<bool> logout() async {
     try {
-      final response = await post(Uri.parse(
-        baseurl + "logout",
-      ));
-      final jsonData = jsonDecode(response.body) as Map;
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.remove('token');
-      // prefs.remove('userId');
 
-      // final jsonData = jsonDecode(response.body) as Map;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove('token');
+    
 
-      if (jsonData['success']) {
+
         return true;
-      }
+      
     } catch (e) {
       if (kDebugMode) {
         print(e);
