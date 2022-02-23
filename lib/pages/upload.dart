@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:frontend/services/httppost.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
@@ -10,14 +9,16 @@ import '../model/post_model.dart';
 import 'shared/config.dart';
 
 class Upload extends StatefulWidget {
-  const Upload({ Key? key }) : super(key: key);
+  const Upload({Key? key}) : super(key: key);
 
   @override
   _UploadState createState() => _UploadState();
 }
 
 class _UploadState extends State<Upload> {
-    PostModel? postModel;
+  String imgUrl = "";
+  String pickedImagePath = "";
+  PostModel? postModel;
   static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   bool isApiCallProcess = false;
   List<Object> images = [];
@@ -30,18 +31,18 @@ class _UploadState extends State<Upload> {
         title: const Text('Upload'),
       ),
       body: ProgressHUD(
-          child: Form(
-            key: globalFormKey,
-            child: postForm(),
-          ),
-          inAsyncCall: isApiCallProcess,
-          opacity: 0.3,
-          key: UniqueKey(),
+        child: Form(
+          key: globalFormKey,
+          child: postForm(),
         ),
+        inAsyncCall: isApiCallProcess,
+        opacity: 0.3,
+        key: UniqueKey(),
+      ),
     );
   }
 
-    @override
+  @override
   void initState() {
     super.initState();
     postModel = PostModel();
@@ -75,7 +76,6 @@ class _UploadState extends State<Upload> {
                 if (onValidateVal.isEmpty) {
                   return 'Content can\'t be empty.';
                 }
-
                 return null;
               },
               (onSavedVal) => {
@@ -91,35 +91,35 @@ class _UploadState extends State<Upload> {
               showPrefixIcon: false,
             ),
           ),
-        
-          // picPicker(
-          //   isImageSelected,
-          //      postModel!.images![0].url??"",
-          //   (file) => {
-          //     setState(
-          //       () {
-          //         //model.productPic = file.path;
-          //         postModel!.images = file.path;
-          //         isImageSelected = true;
-          //       },
-          //     )
-          //   },
-          // ),
+
+          picPicker(
+            isImageSelected,
+            postModel!.images,
+            (file) => {
+              setState(
+                () {
+                  //model.productPic = file.path;
+                  postModel!.images = file.path;
+                  isImageSelected = true;
+                },
+              )
+            },
+          ),
           const SizedBox(
             height: 20,
           ),
+  
           Center(
             child: FormHelper.submitButton(
               "Save",
               () {
                 if (validateAndSave()) {
-                  print(postModel!.toJson());
-
                   setState(() {
                     isApiCallProcess = true;
                   });
 
                   HttpConnectPost.createPost(
+                    imgUrl,
                     postModel!,
                     isEditMode,
                     isImageSelected,
@@ -163,6 +163,7 @@ class _UploadState extends State<Upload> {
       ),
     );
   }
+
   bool validateAndSave() {
     final form = globalFormKey.currentState;
     if (form!.validate()) {
@@ -174,37 +175,23 @@ class _UploadState extends State<Upload> {
 
   static Widget picPicker(
     bool isImageSelected,
-    String fileName,
+    List<Images>? fileNames,
     Function onFilePicked,
   ) {
     Future<XFile?> _imageFile;
     ImagePicker _picker = ImagePicker();
-
     return Column(
       children: [
-        fileName.isNotEmpty
-            ? isImageSelected
-                ? Image.file(
-                    File(fileName),
-                    width: 300,
-                    height: 300,
-                  )
-                : SizedBox(
-                    child: Image.network(
-                      fileName,
-                      width: 200,
-                      height: 200,
-                      fit: BoxFit.scaleDown,
-                    ),
-                  )
-            : SizedBox(
-                child: Image.network(
-                  "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-                  width: 200,
-                  height: 200,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
+        Center(
+          child: SizedBox(
+            child: Image.network(
+              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
+              width: 200,
+              height: 200,
+              fit: BoxFit.scaleDown,
+            ),
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -240,9 +227,5 @@ class _UploadState extends State<Upload> {
         ),
       ],
     );
-  }
-
-  isValidURL(url) {
-    return Uri.tryParse(url)?.hasAbsolutePath ?? false;
   }
 }

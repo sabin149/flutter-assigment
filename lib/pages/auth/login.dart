@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../../services/httpuser.dart';
@@ -34,6 +35,7 @@ class _LoginState extends State<Login> {
     var res = HttpConnectUser().loginPosts(username, password);
     return res;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +72,6 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       child: TextFormField(
-                        
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -114,7 +115,6 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       child: TextFormField(
-                        
                         controller: _passwordController,
                         keyboardType: TextInputType.text,
                         obscureText: !_isHidePassword,
@@ -180,12 +180,27 @@ class _LoginState extends State<Login> {
                                   await loginPost(email, password);
 
                                   _formkey.currentState!.reset();
-                                  Navigator.pushReplacementNamed(context, '/');
+                                  // Navigator.pushReplacementNamed(context, '/');
+                                  AwesomeNotifications().createNotification(
+                                      content: NotificationContent(
+                                    id: 1,
+                                    channelKey: 'letsconnect',
+                                    title: 'Login Successful',
+                                    body: 'user email is : $email ',
+                                  ));
                                   MotionToast.success(
                                           description:
                                               const Text('Login Successfull'))
                                       .show(context);
                                 } else {
+                                   AwesomeNotifications().createNotification(
+                                      content: NotificationContent(
+                                    id: 1,
+                                    channelKey: 'letsconnect',
+                                    title: 'Login UnSuccessful',
+                                    body: 'user email is : $email ',
+                                  ));
+                                  
                                   MotionToast.error(
                                           description:
                                               const Text('Login UnSuccessfull'))

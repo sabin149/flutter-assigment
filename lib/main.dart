@@ -13,8 +13,22 @@ import 'pages/bottom_navbar.dart';
 import 'package:provider/provider.dart';
 import 'pages/shared/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-void main() {
+import 'package:awesome_notifications/awesome_notifications.dart';
+ 
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  AwesomeNotifications().initialize(null, // icon for your app notification
+      [
+        NotificationChannel(
+            channelKey: 'letsconnect',
+            channelName: 'letsconnect',
+            channelDescription: "letsconnect Notification",
+            defaultColor: const Color(0xFF105F49),
+            ledColor: Colors.white,
+            playSound: true, 
+            enableLights: true,
+            enableVibration: true)
+      ]);
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((prefs) {
     var isDarkTheme = prefs.getBool("darkTheme") ?? false;
@@ -44,7 +58,6 @@ class MyApp extends StatelessWidget {
           title: "Let's App",
           theme: value.getTheme(),
           initialRoute: '/mainpage',
-          // initialRoute: mytoken==" "? '/login' : '/',
           routes: {
             '/': (context) => const BottomNavigationbar(),
             '/mainpage': (context) => const HomePage(),
@@ -61,4 +74,5 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+
 }

@@ -7,8 +7,9 @@ class ProfileItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(user);
     return Container(
-      child: Text("${user!.fullname}"),
+      child: Text("hgbdgh"),
     );
   }
-}
+} 

@@ -39,6 +39,7 @@ class UserModel {
       this.iV});
 
   UserModel.fromJson(Map<String, dynamic> json) {
+    json = json['user'];
     sId = json['_id'];
     fullname = json['fullname'];
     username = json['username'];
@@ -63,10 +64,12 @@ class UserModel {
         following!.add(Following.fromJson(v));
       });
     }
-    saved = json['saved'].cast<String>();
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
+    if(json['saved'] != null) {
+      saved = json['saved'].cast<String>();
+    }
+    // createdAt = json['createdAt'];
+    // updatedAt = json['updatedAt'];
+    // iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {

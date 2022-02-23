@@ -24,8 +24,8 @@ class HttpConnectUser {
 
     final response = await post(Uri.parse(baseurl + 'register'), body: userMap);
     if (response.statusCode == 200) {
-      var usrRes = ResponseUser.fromJson(jsonDecode(response.body));
-      return usrRes.success!;
+      var usrRes = jsonDecode(response.body) as Map;
+      return usrRes['msg'];
     } else {
       return false;
     }
@@ -73,19 +73,20 @@ class HttpConnectUser {
     return false;
   }
 
-  Future<List<UserModel>> getUserDetails(String id) async {
+  Future<UserModel> getUserDetails(String id) async {
     final response = await get(Uri.parse(Config.apiURL + "user/" + id),
         headers: {'Authorization': Config.token});
     try {
       if (response.statusCode == 200) {
-        // var res = ResponseGetUser.fromJson(jsonDecode(response.body));
-             var res = jsonDecode(response.body) as Map;
-        return res['user']; 
+      Map<String, dynamic> map = json.decode(response.body);
+      var user = UserModel.fromJson(map);
+        return user; 
         // return res.user;
-      } else {
+      } else { 
         throw Exception('Failed to get the user'); 
       } 
-    } catch (e) {
+    } catch (e) { 
+      print(e);
       throw Exception('Failed to get the user details');
     }
   }

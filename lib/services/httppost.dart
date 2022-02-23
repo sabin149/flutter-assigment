@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:frontend/model/post_model.dart';
 import 'package:frontend/response/posts/getpost_resp.dart';
 import 'package:http/http.dart' as http;
@@ -38,6 +39,7 @@ class HttpConnectPost {
         SharedPreferences prefs=await SharedPreferences.getInstance();
       
           prefs.setString('post', post);
+ 
         return res.posts;
       } else {
         throw Exception('Failed to get the user posts');
@@ -47,7 +49,8 @@ class HttpConnectPost {
     }
   }
 
-  static Future<bool> createPost( 
+  static Future<bool> createPost(
+    String imageUrl,
     PostModel model,
     bool isEditMode,
     bool isFileSelected,
@@ -65,16 +68,16 @@ class HttpConnectPost {
      request.headers.addAll({
         'Authorization': Config.token,
       });
+ 
     request.fields["content"] = model.content!;
-    request.fields["images"] = model.images as String;
+    request.fields["images"] = model.images! as String;
+  
+    //list of images
+  
+    // request.fields["images"] = model.images as String;
+      // List<Network> request.fields["images"] = List<NetworkImage>();
 
-    if (model.images != null && isFileSelected) {
-      http.MultipartFile multipartFile = await http.MultipartFile.fromPath(
-        'images',
-        model.images as String,
-      );
-      request.files.add(multipartFile);
-    }
+    
     var response = await request.send(
     );
     if (response.statusCode == 200) {
