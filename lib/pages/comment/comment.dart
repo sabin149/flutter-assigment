@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/shared/themes.dart';
 import '../../../model/post_model.dart';
 
-class Comments extends StatefulWidget {
-  const Comments({
-    Key? key,
+class CommentsPage extends StatefulWidget {
+  const CommentsPage({
+    Key? key, PostModel? post,
   }) : super(key: key);
   @override
-  _CommentsState createState() => _CommentsState();
+  _CommentsPageState createState() => _CommentsPageState();
 }
 
-class _CommentsState extends State<Comments> {
+class _CommentsPageState extends State<CommentsPage> {
   @override
   Widget build(BuildContext context) {
     final post = ModalRoute.of(context)!.settings.arguments as PostModel;
 
+    var time = post.createdAt.toString().substring(5, 10);
+ 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -65,7 +67,7 @@ class _CommentsState extends State<Comments> {
                     ],
                   ),
                   Text(
-                    "2h",
+                    time,
                     style: TextStyle(
                         fontWeight: medium,
                         color: const Color.fromARGB(255, 126, 124, 124),
@@ -114,10 +116,13 @@ class _CommentsState extends State<Comments> {
                         Container(
                           margin: const EdgeInsets.symmetric(vertical: 3),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "2h",
+                                post.comments![index].createdAt
+                                    .toString()
+                                    .substring(5, 10),
                                 style: TextStyle(
                                     fontWeight: medium,
                                     color: const Color.fromARGB(
@@ -125,7 +130,7 @@ class _CommentsState extends State<Comments> {
                                     letterSpacing: 2),
                               ),
                               Text(
-                                "63 likes",
+                                "${post.comments![index].likes!.length} likes",
                                 style: TextStyle(
                                     fontWeight: medium,
                                     color: const Color.fromARGB(
@@ -140,9 +145,13 @@ class _CommentsState extends State<Comments> {
                                       const Color.fromARGB(255, 126, 124, 124),
                                 ),
                               ),
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.favorite_border))
+                              InkWell(
+                                onTap: () {},
+                                child: post.comments![index].likes!.isNotEmpty
+                                    ?  Icon(Icons.favorite,
+                                        color: redColor)
+                                    : const Icon(Icons.favorite_border),
+                              ),
                             ],
                           ),
                         )
@@ -184,11 +193,9 @@ class _CommentsState extends State<Comments> {
       ),
       bottomSheet: SizedBox(
         height: MediaQuery.of(context).size.height * .1,
-        child: Card( 
+        child: Card(
           child: Stack(
-
             children: [
-             
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -197,31 +204,30 @@ class _CommentsState extends State<Comments> {
                     child: TextFormField(
                       textAlignVertical: TextAlignVertical.center,
                       decoration: InputDecoration(
-
                         border: InputBorder.none,
                         hintText: "Write a comment",
                         hintStyle: TextStyle(
-                          
-                            color: blackColor.withOpacity(.5),
-                            fontWeight: normal,
-                            fontSize: 18,
-                            letterSpacing: 1,
-                            height: 1.5,
-                            fontFamily: 'Montserrat',
-                            fontStyle: FontStyle.normal, 
-                        
-                            decorationColor: blackColor.withOpacity(.5),
-                           ),
-                      ), 
+                          color: blackColor.withOpacity(.5),
+                          fontWeight: normal,
+                          fontSize: 18,
+                          letterSpacing: 1,
+                          height: 1.5,
+                          fontStyle: FontStyle.normal,
+                          decorationColor: blackColor.withOpacity(.5),
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
-              Positioned( 
+              Positioned(
                 top: 10,
-                  right: 45,
-                  child:
-                      IconButton(onPressed: () {}, icon: const Icon(Icons.send),),),
+                right: 45,
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.send),
+                ),
+              ),
             ],
           ),
         ),

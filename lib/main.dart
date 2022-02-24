@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/profile/settings.dart';
-import '/pages/shared/config.dart';
+
 import '/pages/shared/homepage.dart';
 import '/pages/home/home.dart';
 import '/pages/comment/comment.dart';
@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>( 
       builder: (context, value, child) {
         return MaterialApp(
+          
             // visualDensity: VisualDensity.adaptivePlatformDensity,
           debugShowCheckedModeBanner: false,
           title: "Let's App",
@@ -62,13 +63,13 @@ class MyApp extends StatelessWidget {
             '/': (context) => const BottomNavigationbar(),
             '/mainpage': (context) => const HomePage(),
             '/login': (context) => const Login(),
-            '/register': (context) => const Register(),
-            '/home': (context) => const Home(), 
-            '/search': (context) => const Search(),
-            '/upload': (context) => const Upload(),
-            '/profile': (context) => const Profile(),
+            '/register': (context) => const Register(), 
+            // '/home': (context) => const Home(),  
+            // '/search': (context) => const Search(),
+            // '/upload': (context) => const Upload(),
+            // '/profile': (context) => const Profile(),
             '/settings': (context) => const Settings(),
-            '/comments': (context) => const Comments(),
+            '/comments': (context) => const CommentsPage(),
           },
         );
       },

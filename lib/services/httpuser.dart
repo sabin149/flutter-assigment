@@ -2,10 +2,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:frontend/model/user_model.dart';
 import 'package:frontend/pages/shared/config.dart';
-import 'package:frontend/response/user/getuser_resp.dart';
 import 'package:http/http.dart';
 import '../model/register_model.dart';
-import '../response/user/user_resp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpConnectUser {
@@ -14,7 +12,7 @@ class HttpConnectUser {
 
   SharedPreferences? prefs;
 
-  Future<bool> registerPost(User user) async {
+  Future<String> registerPost(User user) async {
     Map<String, dynamic> userMap = {
       "fullname": user.fullname,
       "email": user.email,
@@ -27,13 +25,14 @@ class HttpConnectUser {
       var usrRes = jsonDecode(response.body) as Map;
       return usrRes['msg'];
     } else {
-      return false;
+      var usrRes = jsonDecode(response.body) as Map;
+      return usrRes['msg'];
     }
   }
 
-  Future<bool> loginPosts(String email, String password) async {
+  Future<String> loginPosts(String email, String password) async {
     Map<String, dynamic> loginStudent = {'email': email, 'password': password};
-    try {
+ 
       prefs = await SharedPreferences.getInstance();
       final response = await post(
           Uri.parse(
@@ -45,14 +44,13 @@ class HttpConnectUser {
         final jsonData = jsonDecode(response.body) as Map;
         authtoken = jsonData['access_token'];
         prefs!.setString('token', authtoken);
+          Config.loadToken();
+        return "true"; 
          
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-    return false;
+      }else{
+    
+    var userResponse = jsonDecode(response.body);
+      return userResponse['msg'];}
   }
 
   static Future<bool> logout() async {

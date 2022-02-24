@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/home/home.dart';
 import 'package:frontend/pages/search.dart';
 import 'package:frontend/pages/profile/profile.dart';
-import 'package:frontend/pages/shared/config.dart';
 import 'package:frontend/pages/upload.dart';
 
-class BottomNavigationbar extends StatefulWidget {
+import '../model/post_model.dart';
 
-  const BottomNavigationbar({Key? key, String? token}) : super(key: key);
+class BottomNavigationbar extends StatefulWidget {
+   final PostModel? post;
+
+
+  const BottomNavigationbar({Key? key, this.post}) : super(key: key);
   @override
   _BottomNavigationbarState createState() => _BottomNavigationbarState(); 
 }
 class _BottomNavigationbarState extends State<BottomNavigationbar> {
-
+      
 
   int _selectedIndex = 0;
   static  final List<Widget> _widgetOption = [
     const Home(),
     const Search(),
-    const Upload(),
+    const Upload(), 
     const Profile(),
   ];
   void _onItemTapped(int index) {

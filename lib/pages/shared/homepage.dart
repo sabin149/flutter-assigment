@@ -1,8 +1,6 @@
 import "package:flutter/material.dart";
 import 'config.dart';
 
-
-
 class HomePage extends StatefulWidget {
  const  HomePage({Key? key}) : super(key: key);
   @override
@@ -32,14 +30,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     if (token == null) {
-      return const Scaffold();
+       Future.delayed(Duration.zero, () {
+        Navigator.pushReplacementNamed(context, '/login');
+      });
     } else if (token == "") {
       Future.delayed(Duration.zero, () {
         Navigator.pushReplacementNamed(context, '/login');
       });
     } else {
       Future.delayed(Duration.zero, () {
-   
         Navigator.pushReplacementNamed(context, '/', );
        
       });

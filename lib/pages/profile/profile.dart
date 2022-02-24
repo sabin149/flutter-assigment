@@ -5,7 +5,7 @@ import "package:provider/provider.dart";
 import '../../model/post_model.dart'; 
 import '../../services/httpuser.dart';
 import '../shared/theme.dart';
-import 'profile_item.dart';
+// import 'profile_item.dart';
 
 class Profile extends StatefulWidget {
     final PostModel? post;

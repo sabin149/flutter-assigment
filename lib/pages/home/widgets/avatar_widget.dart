@@ -78,7 +78,7 @@ class AvatarWidget extends StatelessWidget {
                       color: Colors.blue,
                       border: Border.all(color: Colors.white),
                     ),
-                    child: Icon(Icons.add, size: 16.0, color: Colors.white),
+                    child: const Icon(Icons.add, size: 16.0, color: Colors.white),
                   ),
                 ),
             ],
@@ -96,7 +96,7 @@ class AvatarWidget extends StatelessWidget {
     );
 
     return Padding(
-      padding: this.padding,
+      padding: padding,
       child: GestureDetector(child: avatar, onTap: onTap),
     );
   }

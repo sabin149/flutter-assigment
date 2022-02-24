@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:frontend/pages/shared/themes.dart';
@@ -18,6 +16,8 @@ class PostItem extends StatefulWidget {
 
 class _PostItemState extends State<PostItem> {
     bool _isSaved = false;
+    bool _isLiked = false;
+  
    int _current = 0;
   final CarouselController _controller = CarouselController();
   
@@ -26,62 +26,10 @@ class _PostItemState extends State<PostItem> {
     setState(() => _isSaved = !_isSaved);
   }
 
-  final _textController = TextEditingController();
-  bool _canPost = false;
-
-  @override
-  void initState() {
-    _textController.addListener(() {
-      setState(() => _canPost = _textController.text.isNotEmpty);
-    });
-    super.initState();
+   void _toggleLiked() {
+    setState(() => _isLiked = !_isLiked);
   }
-
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
-  }
-
-  void _showAddCommentModal() {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Row(
-      children: [
-        CircleAvatar(
-                backgroundImage: NetworkImage(
-                  '${widget.post?.user?.avatar}',
-                ),
-              ),
-        Expanded(
-          child: TextField(
-            controller: _textController,
-            autofocus: true,
-            decoration: const InputDecoration(
-              hintText: 'Add a comment...',
-              border: InputBorder.none, 
-            ),
-          ),
-        ),
-        TextButton(
-          child: Opacity(
-            opacity: _canPost ? 1.0 : 0.4,
-            child: const Text('Post', style:  TextStyle(color: Colors.blue)),
-          ),
-          onPressed:
-              _canPost ? () => widget.onPost!(_textController.text) : null,
-        )
-      ],
-    ),
-        );
-      },
-    );
-  }
-
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -204,22 +152,29 @@ class _PostItemState extends State<PostItem> {
           
           Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
+          children:[
             const Padding(
               padding: EdgeInsets.all(8.0),
-              
             ),
             IconButton(
               padding: EdgeInsets.zero,
               iconSize: 28.0,
-              icon: const Icon(Icons.favorite_border),
-              onPressed: () {}
+              //  icon:widget.post!.likes!.isNotEmpty?Icon(Icons.favorite, color: redColor,):const Icon(Icons.favorite_border),
+
+            // icon:_isLiked?  : const ,
+              onPressed: _toggleLiked,
+            icon:_isLiked?  Icon(Icons.favorite, color: redColor,) : const Icon(Icons.favorite_border),
+              // onPressed: (){},
+ 
             ),
             IconButton(
               padding: EdgeInsets.zero,
-              iconSize: 28.0,
+              iconSize: 28.0,  
               icon: const Icon(Icons.comment),
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.pushNamed(context, "/comments",arguments: widget.post)
+               
+              },
             ),
              IconButton(
               padding: EdgeInsets.zero,
@@ -283,29 +238,8 @@ class _PostItemState extends State<PostItem> {
                   child: Text("View all ${widget.post!.comments!.length} comments",
                       style: const TextStyle(fontSize: 16)),
                 ),
-                // Add a comment...
-              Row(
-
-                children: [
-      
-                
                
-                    CircleAvatar(
-                backgroundImage: NetworkImage(
-                  '${widget.post?.user?.avatar}',
-                ),
-              
-                   
-                 ),
-                  GestureDetector(
-                    child: const Text(
-                      'Add a comment...',
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                    onTap: _showAddCommentModal,
-                  ),
-                ],
-              ),
+             
 
               ],
             ),

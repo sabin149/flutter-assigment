@@ -8,7 +8,7 @@ class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
 
   @override
-  _LoginState createState() => _LoginState();
+  _LoginState createState() => _LoginState(); 
 }
 
 class _LoginState extends State<Login> {
@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  Future<bool> loginPost(String username, String password) {
+  Future<String?> loginPost(String username, String password) {
     var res = HttpConnectUser().loginPosts(username, password);
     return res;
   }
@@ -52,17 +52,14 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/logo/instagram.png',
-                      height: 50,
-                    ),
+                  const Text(" Let's Connect",textWidthBasis: TextWidthBasis.parent,style: TextStyle(fontSize: 35,fontWeight: FontWeight.bold),),
                     const SizedBox(
                       height: 30,
                     ),
                     Container(
                       height: 50,
                       width: double.infinity,
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      padding: const EdgeInsets.symmetric(horizontal: 15), 
                       decoration: BoxDecoration(
                         color: greyColor,
                         borderRadius: BorderRadius.circular(8),
@@ -177,35 +174,39 @@ class _LoginState extends State<Login> {
                             ? () async {
                                 if (_formkey.currentState!.validate()) {
                                   _formkey.currentState!.save();
-                                  await loginPost(email, password);
-
+                                var isCreated= await loginPost(email, password);
+                              
+                             
+                                if(isCreated=="true"){
                                   _formkey.currentState!.reset();
-                                  // Navigator.pushReplacementNamed(context, '/');
+                                
                                   AwesomeNotifications().createNotification(
                                       content: NotificationContent(
                                     id: 1,
                                     channelKey: 'letsconnect',
-                                    title: 'Login Successful',
+                                    title: 'Login Successfull',
                                     body: 'user email is : $email ',
                                   ));
-                                  MotionToast.success(
+                                  MotionToast.success( 
                                           description:
-                                              const Text('Login Successfull'))
+                                   const Text('Login Successfull'),
+                                       
+                                       )
                                       .show(context);
-                                } else {
+                                        Navigator.pushReplacementNamed(context, '/');
+                                }else {
+                                   MotionToast.error(
+                                          description:
+                                               Text('$isCreated'))
+                                      .show(context);
                                    AwesomeNotifications().createNotification(
                                       content: NotificationContent(
                                     id: 1,
                                     channelKey: 'letsconnect',
-                                    title: 'Login UnSuccessful',
+                                    title: '$isCreated',
                                     body: 'user email is : $email ',
                                   ));
-                                  
-                                  MotionToast.error(
-                                          description:
-                                              const Text('Login UnSuccessfull'))
-                                      .show(context);
-                                }
+                                } }
                               }
                             : null,
                         child: Text(
@@ -280,15 +281,20 @@ class _LoginState extends State<Login> {
             Text(
               "Don't have an account? ",
               style: TextStyle(
-                color: greyDarkColor,
+                color: greyDarkColor, 
                 letterSpacing: 0.1,
               ),
             ),
-            Text(
-              ' Sign Up.',
-              style: TextStyle(
-                color: blueColor,
-                fontWeight: medium,
+            InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/register');
+              },
+              child: Text(
+                ' Sign Up.',
+                style: TextStyle(
+                  color: blueColor,
+                  fontWeight: medium,
+                ),
               ),
             ),
           ],
