@@ -285,18 +285,18 @@ class _RegisterState extends State<Register> {
                                     ));
                                     MotionToast.success(
                                       description:
-                                           Text('$isCreated'),
+                                           Text(isCreated),
                                     ).show(context);
                               
                                   } else {
                                     MotionToast.error(
-                                            description: Text('$isCreated'))
+                                            description: Text(isCreated))
                                         .show(context);
                                     AwesomeNotifications().createNotification(
                                         content: NotificationContent(
                                       id: 1,
                                       channelKey: 'letsconnect',
-                                      title: '$isCreated',
+                                      title: isCreated,
                                       body: 'user email is : $email ',
                                     ));
                                   }

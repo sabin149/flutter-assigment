@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
           "Let's Connect",
           style:
               TextStyle(fontFamily: "Genel", fontSize: 30, color: Colors.black),
-        ),
+        ), 
         actions: [
           IconButton(
             icon: const Icon(
@@ -38,6 +38,7 @@ class _HomeState extends State<Home> {
               color: Colors.black,
             ),
             onPressed: () { 
+              Navigator.pushNamed(context, "/settings");
              
             }, 
           ),

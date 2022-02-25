@@ -51,7 +51,7 @@ class _PostItemState extends State<PostItem> {
                 Navigator.pushNamed(context, '/profile', arguments: widget.post);
               },
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
+                backgroundImage: NetworkImage( 
                   '${widget.post!.user!.avatar}',
                 ),
               ),

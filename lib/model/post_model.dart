@@ -16,17 +16,18 @@ class PostModel {
       this.likes,
       this.comments,
       this.user,
-      this.createdAt,
+      this.createdAt,  
       this.updatedAt,
-      this.iV});
+      this.iV}); 
 
   PostModel.fromJson(Map<String, dynamic> json) {
+    
     sId = json['_id'];
     content = json['content'];
-    if (json['images'] != null) {
+    if (json['images'] != null) { 
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(Images.fromJson(v));
+        images!.add(Images.fromJson(v)); 
       });
     }
     if (json['likes'] != null) {

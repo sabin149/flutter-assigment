@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'getuserposts_resp.dart';
+part of 'getdiscoverposts_resp.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ResponseGetUserPosts _$ResponseGetUserPostsFromJson(
+ResponseGetDiscoverPosts _$ResponseGetDiscoverPostsFromJson(
         Map<String, dynamic> json) =>
-    ResponseGetUserPosts(
+    ResponseGetDiscoverPosts(
       posts: (json['posts'] as List<dynamic>)
-          .map((e) => GetUserPostsModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => GetDiscoverPostsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$ResponseGetUserPostsToJson(
-        ResponseGetUserPosts instance) =>
+Map<String, dynamic> _$ResponseGetDiscoverPostsToJson(
+        ResponseGetDiscoverPosts instance) =>
     <String, dynamic>{
       'posts': instance.posts.map((e) => e.toJson()).toList(),
     };

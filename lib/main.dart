@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:frontend/pages/profile/settings.dart';
 
 import '/pages/shared/homepage.dart';
-import '/pages/home/home.dart';
+
 import '/pages/comment/comment.dart';
 import '/pages/auth/register.dart';
-import '/pages/search.dart';
+
 import '/pages/profile/profile.dart';
-import '/pages/upload.dart';
+
 import 'pages/auth/login.dart';
 import 'pages/bottom_navbar.dart';
 import 'package:provider/provider.dart';
@@ -64,10 +64,7 @@ class MyApp extends StatelessWidget {
             '/mainpage': (context) => const HomePage(),
             '/login': (context) => const Login(),
             '/register': (context) => const Register(), 
-            // '/home': (context) => const Home(),  
-            // '/search': (context) => const Search(),
-            // '/upload': (context) => const Upload(),
-            // '/profile': (context) => const Profile(),
+            '/profile': (context) => const Profile(),
             '/settings': (context) => const Settings(),
             '/comments': (context) => const CommentsPage(),
           },

@@ -32,37 +32,32 @@ class HttpConnectUser {
 
   Future<String> loginPosts(String email, String password) async {
     Map<String, dynamic> loginStudent = {'email': email, 'password': password};
- 
-      prefs = await SharedPreferences.getInstance();
-      final response = await post(
-          Uri.parse(
-            baseurl + "login",
-          ),
-          body: loginStudent);
 
-      if (response.statusCode == 200) {
-        final jsonData = jsonDecode(response.body) as Map;
-        authtoken = jsonData['access_token'];
-        prefs!.setString('token', authtoken);
-          Config.loadToken();
-        return "true"; 
-         
-      }else{
-    
-    var userResponse = jsonDecode(response.body);
-      return userResponse['msg'];}
+    prefs = await SharedPreferences.getInstance();
+    final response = await post(
+        Uri.parse(
+          baseurl + "login",
+        ),
+        body: loginStudent);
+
+    if (response.statusCode == 200) {
+      final jsonData = jsonDecode(response.body) as Map;
+      authtoken = jsonData['access_token'];
+      prefs!.setString('token', authtoken);
+      Config.loadToken();
+      return "true";
+    } else {
+      var userResponse = jsonDecode(response.body);
+      return userResponse['msg'];
+    }
   }
 
   static Future<bool> logout() async {
     try {
-
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.remove('token');
-    
 
-
-        return true;
-      
+      return true;
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -76,15 +71,15 @@ class HttpConnectUser {
         headers: {'Authorization': Config.token});
     try {
       if (response.statusCode == 200) {
-      Map<String, dynamic> map = json.decode(response.body);
-      var user = UserModel.fromJson(map);
-        return user; 
-        // return res.user;
-      } else { 
-        throw Exception('Failed to get the user'); 
-      } 
-    } catch (e) { 
-      print(e);
+        Map<String, dynamic> map = json.decode(response.body);
+
+        var user = UserModel.fromJson(map);
+
+        return user;
+      } else {
+        throw Exception('Failed to get the user');
+      }
+    } catch (e) {
       throw Exception('Failed to get the user details');
     }
   }

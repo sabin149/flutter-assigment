@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/pages/home/home.dart';
-import 'package:frontend/pages/search.dart';
+import 'package:frontend/pages/search/search.dart';
 import 'package:frontend/pages/profile/profile.dart';
+import 'package:frontend/pages/shared/themes.dart';
 import 'package:frontend/pages/upload.dart';
 
 import '../model/post_model.dart';
@@ -32,35 +33,40 @@ class _BottomNavigationbarState extends State<BottomNavigationbar> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: _widgetOption.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        selectedItemColor: blackColor,
+        type: BottomNavigationBarType.fixed, 
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
               Icons.home,
+              size: 30,
+             
             ),
-            label: 'Home',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.search_rounded,
+              size: 30,
             ),
-            label: 'Search',
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.file_upload_sharp,
+              size: 30,
             ),
-            label: 'Upload',
+            label: '', 
           ),
           BottomNavigationBarItem( 
             icon: Icon(
               Icons.people,
-            ),
-            label: 'Profile',
+              size: 30,
+            ), 
+            label: '' ,
           
           ),
         ],
