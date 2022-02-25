@@ -40,10 +40,6 @@ class _RegisterState extends State<Register> {
     super.dispose();
   }
 
-  // Future<String?> loginPost(String username, String password) {
-  //   var res = HttpConnectUser().loginPosts(username, password);
-  //   return res;
-  // }
   Future<String> registerUser(User u) {
     var res = HttpConnectUser().registerPost(u);
     return res;

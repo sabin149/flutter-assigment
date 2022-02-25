@@ -53,7 +53,6 @@ class HttpConnectPost {
     try {
       if (response.statusCode == 200) {
         var res = ResponseGetDiscoverPosts.fromJson(jsonDecode(response.body));
-       
 
         return res.posts;
       } else {
@@ -87,16 +86,58 @@ class HttpConnectPost {
     request.fields["content"] = model.content!;
     request.fields["images"] = model.images! as String;
 
-    //list of images
-
-    // request.fields["images"] = model.images as String;
-    // List<Network> request.fields["images"] = List<NetworkImage>();
-
     var response = await request.send();
     if (response.statusCode == 200) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<String> createComment(Comments comment) async {
+    Map<String, dynamic> createComment = {
+      'content': comment.content,
+      'postId': comment.postId,
+      "postUserId": comment.postUserId
+    };
+
+    final response = await http.post(
+        Uri.parse(
+          baseurl + "comment/",
+          
+        ),
+         headers: {'Authorization': Config.token},
+        body: createComment);
+
+        print(response.body);
+
+    if (response.statusCode == 200) {
+    jsonDecode(response.body) as Map;
+      // print(jsonData);
+      return "true"; 
+  
+    } else {
+      return "false";
+    }
+  }
+
+
+   Future<String> deleteComment(String id) async {
+    final response = await http.delete(Uri.parse(Config.apiURL + "comment/"+id),
+        headers: {'Authorization': Config.token});
+    try {
+      if (response.statusCode == 200) {
+        // var res = ResponseGetDiscoverPosts.fromJson(jsonDecode(response.body));
+        
+        var res=jsonDecode(response.body);
+        return res["msg"];
+
+      } else {
+         var res=jsonDecode(response.body);
+        return res["msg"];
+      }
+    } catch (e) {
+      throw Exception('Failed to get the discover posts');
     }
   }
 }

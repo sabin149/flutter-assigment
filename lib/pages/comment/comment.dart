@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:frontend/pages/shared/themes.dart';
+import 'package:motion_toast/motion_toast.dart';
 import '../../../model/post_model.dart';
+import '../../services/httppost.dart';
 
 class CommentsPage extends StatefulWidget {
   const CommentsPage({
-    Key? key, PostModel? post,
+    Key? key,
+    PostModel? post,
   }) : super(key: key);
   @override
   _CommentsPageState createState() => _CommentsPageState();
 }
 
 class _CommentsPageState extends State<CommentsPage> {
+  final _formKey = GlobalKey<FormState>();
+  String content = "";
+
+  Future<String> createComments(Comments comment) {
+    var res = HttpConnectPost().createComment(comment);
+    return res;
+  }
+
   @override
   Widget build(BuildContext context) {
     final post = ModalRoute.of(context)!.settings.arguments as PostModel;
+    var postId = post.sId;
+    var postUserId = post.user!.sId;
 
     var time = post.createdAt.toString().substring(5, 10);
- 
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -148,90 +163,179 @@ class _CommentsPageState extends State<CommentsPage> {
                               InkWell(
                                 onTap: () {},
                                 child: post.comments![index].likes!.isNotEmpty
-                                    ?  Icon(Icons.favorite,
-                                        color: redColor)
+                                    ? Icon(Icons.favorite, color: redColor)
                                     : const Icon(Icons.favorite_border),
                               ),
-                            ],
+                              InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(actions: [
+                                      Column(
+                                        children: [
+                                          TextButton(
+                                               onPressed: () {},
+                                              child:const  Text("Edit")),
+                                          TextButton(
+                                              onPressed: () {},
+                                              child:const  Text("Delete")),
+                                        ],
+                                      )
+                                    ]),
+                                  );
+
+                                  // setState(() {
+                                  //   post.comments![index].likes!.});
+                                },
+                                child: const Icon(FontAwesomeIcons.ellipsisV),
+                              ),
+                            ], 
                           ),
-                        )
+                        ),
                       ],
                     ),
                   );
                 }),
-            //  SizedBox(
-            //   height: MediaQuery.of(context).size.height * .48,
-            // ),
-            // Stack(
-            //   children: [
-            //     Container(
-            //       margin: const EdgeInsets.symmetric(horizontal: 20),
-            //       child: TextFormField(
-            //         decoration: InputDecoration(
-            //           hintText: "Write a comment",
-            //           hintStyle: TextStyle(
-            //               color: blackColor.withOpacity(.5),
-            //               fontWeight: normal,
-            //               fontSize: 18,
-            //               letterSpacing: 1,
-            //               height: 1.5,
-            //               fontFamily: 'Montserrat',
-            //               fontStyle: FontStyle.normal,
-            //               decorationStyle: TextDecorationStyle.solid,
-            //               decorationColor: blackColor.withOpacity(.5),
-            //               decoration: TextDecoration.none),
-            //         ),
-            //       ),
-            //     ),
-            //       Positioned(
-            //         right: 45,
-            //         child: IconButton(onPressed: (){}, icon: const Icon(Icons.send)))
-            //   ],
-            // ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .2,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Card(
+                      child: Stack(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: TextFormField(
+                                  onSaved: (newValue) => content = newValue!,
+                                  validator:
+                                      RequiredValidator(errorText: '*Required'),
+                                  textAlignVertical: TextAlignVertical.center,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Write a comment",
+                                    hintStyle: TextStyle(
+                                      color: blackColor.withOpacity(.5),
+                                      fontWeight: normal,
+                                      fontSize: 18,
+                                      letterSpacing: 1,
+                                      height: 1.5,
+                                      fontStyle: FontStyle.normal,
+                                      decorationColor:
+                                          blackColor.withOpacity(.5),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Positioned(
+                            top: 10,
+                            right: 45,
+                            child: IconButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  _formKey.currentState!.save();
+
+                                  Comments comment = Comments(
+                                      content: content,
+                                      postId: postId,
+                                      postUserId: postUserId);
+
+                                  var isCreated = await createComments(comment);
+                                  if (isCreated == "true") {
+                                    _formKey.currentState!.reset();
+                                    Navigator.pushReplacementNamed(
+                                        context, '/');
+                                    MotionToast.success(
+                                      description:
+                                          const Text("Comment Created"),
+                                    ).show(context);
+                                  } else {
+                                    MotionToast.error(
+                                      description:
+                                          const Text("Comment not Created"),
+                                    ).show(context);
+                                  }
+                                }
+                              },
+                              icon: Icon(Icons.send, color: blueColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
-      bottomSheet: SizedBox(
-        height: MediaQuery.of(context).size.height * .1,
-        child: Card(
-          child: Stack(
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    child: TextFormField(
-                      textAlignVertical: TextAlignVertical.center,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Write a comment",
-                        hintStyle: TextStyle(
-                          color: blackColor.withOpacity(.5),
-                          fontWeight: normal,
-                          fontSize: 18,
-                          letterSpacing: 1,
-                          height: 1.5,
-                          fontStyle: FontStyle.normal,
-                          decorationColor: blackColor.withOpacity(.5),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Positioned(
-                top: 10,
-                right: 45,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.send),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+
+      // bottomSheet: SizedBox(
+      //   height: MediaQuery.of(context).size.height * .1,
+      //   child: Card(
+      //     child: Stack(
+      //       children: [
+      //         Column(
+      //           mainAxisAlignment: MainAxisAlignment.center,
+      //           children: [
+      //             Container(
+      //               margin: const EdgeInsets.symmetric(horizontal: 20),
+      //               child: TextFormField(
+      //                 onSaved: (newValue) => content = newValue!,
+      //                 validator: RequiredValidator(errorText: '*Required'),
+      //                 textAlignVertical: TextAlignVertical.center,
+      //                 decoration: InputDecoration(
+      //                   border: InputBorder.none,
+      //                   hintText: "Write a comment",
+      //                   hintStyle: TextStyle(
+      //                     color: blackColor.withOpacity(.5),
+      //                     fontWeight: normal,
+      //                     fontSize: 18,
+      //                     letterSpacing: 1,
+      //                     height: 1.5,
+      //                     fontStyle: FontStyle.normal,
+      //                     decorationColor: blackColor.withOpacity(.5),
+      //                   ),
+      //                 ),
+      //               ),
+      //             ),
+      //           ],
+      //         ),
+      //         Positioned(
+      //           top: 10,
+      //           right: 45,
+      //           child: IconButton(
+      //             onPressed: ()async {
+      //               if (_formKey.currentState!.validate()) {
+      //                 _formKey.currentState!.save();
+
+      //                 //  var isCreated= await createComments(
+      //                 //     // post.id, content, post.user!.id
+
+      //                 //     content, post.sId, post.user!.id
+      //                 //  );
+
+      //               }
+      //             },
+      //             icon:  Icon(Icons.send, color: blueColor),
+      //           ),
+      //         ),
+
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
