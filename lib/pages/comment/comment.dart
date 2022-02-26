@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:frontend/pages/shared/themes.dart';
+import 'package:frontend/services/httpcomment.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../../../model/post_model.dart';
 import '../../services/httppost.dart';
@@ -19,8 +20,13 @@ class _CommentsPageState extends State<CommentsPage> {
   final _formKey = GlobalKey<FormState>();
   String content = "";
 
-  Future<String> createComments(Comments comment) {
-    var res = HttpConnectPost().createComment(comment);
+  Future<String> createComments(Comments comment) { 
+    var res = HttpConnectComment().createComment(comment);
+    return res;
+  }
+
+  Future<String> deleteComments(String id) {
+    var res = HttpConnectComment().deleteComment(id);
     return res;
   }
 
@@ -170,15 +176,35 @@ class _CommentsPageState extends State<CommentsPage> {
                                 onTap: () {
                                   showDialog(
                                     context: context,
-                                    builder: (_) => AlertDialog(actions: [
+                                    builder: (_) =>
+                                        AlertDialog(elevation: 10, actions: [
                                       Column(
                                         children: [
                                           TextButton(
-                                               onPressed: () {},
-                                              child:const  Text("Edit")),
+                                            onPressed: () {},
+                                            child: const Text("Edit"),
+                                          ),
                                           TextButton(
-                                              onPressed: () {},
-                                              child:const  Text("Delete")),
+                                            onPressed: () async {
+                                              
+                                              var res = await deleteComments(
+                                                  "${post.comments![index].sId}");
+
+                                              if (res == "Deleted  Comment!")  {
+                                                Navigator.pushReplacementNamed(context, "/");
+                                                MotionToast.success(
+                                                  description: Text(res),
+                                                ).show(context);
+                                                
+                                              } else {
+                                                MotionToast.error( 
+                                                        description: Text(res))
+                                                    .show(context);
+                                                   
+                                              }
+                                            },
+                                            child: const Text("Delete"),
+                                          ),
                                         ],
                                       )
                                     ]),
@@ -189,7 +215,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                 },
                                 child: const Icon(FontAwesomeIcons.ellipsisV),
                               ),
-                            ], 
+                            ],
                           ),
                         ),
                       ],
@@ -204,14 +230,16 @@ class _CommentsPageState extends State<CommentsPage> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  children: [
+                  children: [ 
                     Card(
                       child: Stack(
                         children: [
-                          Column(
+                          Column( 
                             mainAxisAlignment: MainAxisAlignment.center,
+
                             children: [
-                              Container(
+                              Container( 
+                               
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: TextFormField(

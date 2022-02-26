@@ -12,7 +12,6 @@ class HttpConnectPost {
   String baseurl = Config.apiURL;
   String mytoken = Config.token;
 
-  static String post = "";
 
   Future<List<PostModel>> getPosts() async {
     final response = await http.get(Uri.parse(baseurl + "posts/"),
@@ -46,6 +45,25 @@ class HttpConnectPost {
       throw Exception('Failed to get the user postsss');
     }
   }
+
+
+  static Future<List<GetUserPostsModel>> getPost(String id) async {
+    final response = await http.get(
+        Uri.parse(Config.apiURL + "user_posts/" + id),
+        headers: {'Authorization': Config.token});
+    try {
+      if (response.statusCode == 200) {
+        var res = ResponseGetUserPosts.fromJson(jsonDecode(response.body));
+
+        return res.posts;
+      } else {
+        throw Exception('Failed to get the user posts');
+      }
+    } catch (e) {
+      throw Exception('Failed to get the user postsss');
+    }
+  }
+
 
   static Future<List<GetDiscoverPostsModel>> getDiscoverPosts() async {
     final response = await http.get(Uri.parse(Config.apiURL + "post_discover/"),
@@ -94,50 +112,63 @@ class HttpConnectPost {
     }
   }
 
-  Future<String> createComment(Comments comment) async {
-    Map<String, dynamic> createComment = {
-      'content': comment.content,
-      'postId': comment.postId,
-      "postUserId": comment.postUserId
-    };
-
-    final response = await http.post(
-        Uri.parse(
-          baseurl + "comment/",
-          
-        ),
-         headers: {'Authorization': Config.token},
-        body: createComment);
-
-        print(response.body);
-
-    if (response.statusCode == 200) {
-    jsonDecode(response.body) as Map;
-      // print(jsonData);
-      return "true"; 
   
-    } else {
-      return "false";
-    }
-  }
-
-
-   Future<String> deleteComment(String id) async {
-    final response = await http.delete(Uri.parse(Config.apiURL + "comment/"+id),
+  Future<String> deletePost(String postid, String userid ) async {
+    final response = await http.delete(
+        Uri.parse(Config.apiURL + "post/" + postid),
         headers: {'Authorization': Config.token});
     try {
       if (response.statusCode == 200) {
-        // var res = ResponseGetDiscoverPosts.fromJson(jsonDecode(response.body));
-        
-        var res=jsonDecode(response.body);
+        var res = jsonDecode(response.body);
         return res["msg"];
-
       } else {
-         var res=jsonDecode(response.body);
+        var res = jsonDecode(response.body);
         return res["msg"];
       }
     } catch (e) {
       throw Exception('Failed to get the discover posts');
     }
   }
+  Future<String> savePost(String postid, String userid ) async {
+       Map<String, String?> savePost = {'saved': userid};
+    final response = await http.patch(
+        Uri.parse(Config.apiURL + "post/" + postid),
+
+        headers: {'Authorization': Config.token},
+        body:  savePost
+        );
+    try {
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      } else {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      }
+    } catch (e) {
+      throw Exception('Failed to get the discover posts');
+    }
+  }
+  Future<String> unsavePost(String postid, String userid ) async {
+       Map<String, String?> savePost = {'saved': userid};
+    final response = await http.patch(
+        Uri.parse(Config.apiURL + "post/" + postid),
+
+        headers: {'Authorization': Config.token},
+        body:  savePost
+        );
+    try {
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      } else {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      }
+    } catch (e) {
+      throw Exception('Failed to get the discover posts');
+    }
+  }
+
+
 }

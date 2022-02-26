@@ -83,4 +83,22 @@ class HttpConnectUser {
       throw Exception('Failed to get the user details');
     }
   }
+
+static Future<List<UserModel>> getPost(String id) async {
+    final response = await get(
+        Uri.parse(Config.apiURL + "search/" + id),
+        headers: {'Authorization': Config.token});
+    try {
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+
+        return res["users"];
+      } else {
+        throw Exception('Failed to get the users');
+      }
+    } catch (e) {
+      throw Exception('Failed to get the users');
+    }
+  }
+
 }
