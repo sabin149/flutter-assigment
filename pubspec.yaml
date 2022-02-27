@@ -48,10 +48,11 @@ dependencies:
   carousel_slider: ^4.0.0
   image_picker: ^0.8.4+9
   awesome_notifications: ^0.6.21
+  jwt_decoder: ^2.0.1
 
   
 dev_dependencies: 
-  flutter_test: 
+  flutter_test:  
     sdk: flutter
   json_serializable: ^6.1.4
   build_runner: ^2.1.7

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/profile/settings.dart';
+import 'package:frontend/pages/profile/widgets/followers.dart';
+import 'package:frontend/pages/profile/widgets/followings.dart';
+import 'package:frontend/pages/profile/widgets/settings.dart';
+import 'package:frontend/pages/shared/themes.dart';
 
 import '/pages/shared/homepage.dart';
 
@@ -15,6 +18,8 @@ import 'pages/shared/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
  
+
+ 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   AwesomeNotifications().initialize(null, // icon for your app notification
@@ -23,7 +28,7 @@ void main() async{
             channelKey: 'letsconnect',
             channelName: 'letsconnect',
             channelDescription: "letsconnect Notification",
-            defaultColor: const Color(0xFF105F49),
+            defaultColor: blueColor,
             ledColor: Colors.white,
             playSound: true, 
             enableLights: true,
@@ -67,6 +72,8 @@ class MyApp extends StatelessWidget {
             '/profile': (context) => const Profile(),
             '/settings': (context) => const Settings(),
             '/comments': (context) => const CommentsPage(),
+            '/followers': (context) => const FollowersPage(),
+            '/followings': (context) => const FollowingsPage(),
           },
         );
       },

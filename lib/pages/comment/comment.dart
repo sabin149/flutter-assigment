@@ -5,7 +5,6 @@ import 'package:frontend/pages/shared/themes.dart';
 import 'package:frontend/services/httpcomment.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../../../model/post_model.dart';
-import '../../services/httppost.dart';
 
 class CommentsPage extends StatefulWidget {
   const CommentsPage({
@@ -20,7 +19,7 @@ class _CommentsPageState extends State<CommentsPage> {
   final _formKey = GlobalKey<FormState>();
   String content = "";
 
-  Future<String> createComments(Comments comment) { 
+  Future<String> createComments(Comments comment) {
     var res = HttpConnectComment().createComment(comment);
     return res;
   }
@@ -30,12 +29,22 @@ class _CommentsPageState extends State<CommentsPage> {
     return res;
   }
 
+  Future<String> likeComments(String commentId, String userId) {
+    var res = HttpConnectComment().likeComment(commentId, userId);
+    return res;
+  }
+
+  Future<String> unlikeComments(String commentId, String userId) {
+    var res = HttpConnectComment().unLikeComment(commentId, userId);
+    return res;
+  }
+
   @override
   Widget build(BuildContext context) {
     final post = ModalRoute.of(context)!.settings.arguments as PostModel;
     var postId = post.sId;
+    var userId = post.user!.sId;
     var postUserId = post.user!.sId;
-
     var time = post.createdAt.toString().substring(5, 10);
 
     return Scaffold(
@@ -167,7 +176,31 @@ class _CommentsPageState extends State<CommentsPage> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () {},
+                                onTap: () async {
+                                  if (post.comments![index].likes!.isEmpty) {
+                                    await likeComments(
+                                        "${post.comments![index].sId}",
+                                        userId!);
+
+                                    MotionToast.success(
+                                      description: const Text('Comment Liked'),
+                                    ).show(context);
+                                    Navigator.pushNamed(
+                                        context, '/');
+                                  } else {
+                                    await unlikeComments(
+                                        "${post.comments![index].sId}",
+                                        userId!);
+
+                                    MotionToast.success(
+                                      description:
+                                          const Text('Comment UnLiked'),
+                                    ).show(context);
+                                    Navigator.pushNamed(
+                                        context, '/');
+                                  
+                                  }
+                                },
                                 child: post.comments![index].likes!.isNotEmpty
                                     ? Icon(Icons.favorite, color: redColor)
                                     : const Icon(Icons.favorite_border),
@@ -186,21 +219,19 @@ class _CommentsPageState extends State<CommentsPage> {
                                           ),
                                           TextButton(
                                             onPressed: () async {
-                                              
                                               var res = await deleteComments(
                                                   "${post.comments![index].sId}");
 
-                                              if (res == "Deleted  Comment!")  {
-                                                Navigator.pushReplacementNamed(context, "/");
+                                              if (res == "Deleted Comment!") {
+                                                Navigator.pushReplacementNamed(
+                                                    context, "/");
                                                 MotionToast.success(
                                                   description: Text(res),
                                                 ).show(context);
-                                                
                                               } else {
-                                                MotionToast.error( 
+                                                MotionToast.error(
                                                         description: Text(res))
                                                     .show(context);
-                                                   
                                               }
                                             },
                                             child: const Text("Delete"),
@@ -230,16 +261,14 @@ class _CommentsPageState extends State<CommentsPage> {
               child: Form(
                 key: _formKey,
                 child: Column(
-                  children: [ 
+                  children: [
                     Card(
                       child: Stack(
                         children: [
-                          Column( 
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
-
                             children: [
-                              Container( 
-                               
+                              Container(
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 20),
                                 child: TextFormField(

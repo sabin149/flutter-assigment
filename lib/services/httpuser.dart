@@ -44,6 +44,7 @@ class HttpConnectUser {
       final jsonData = jsonDecode(response.body) as Map;
       authtoken = jsonData['access_token'];
       prefs!.setString('token', authtoken);
+   
       Config.loadToken();
       return "true";
     } else {
@@ -84,21 +85,108 @@ class HttpConnectUser {
     }
   }
 
-static Future<List<UserModel>> getPost(String id) async {
+
+ Future<List<UserModel>> searchUser(String username) async {
     final response = await get(
-        Uri.parse(Config.apiURL + "search/" + id),
+        Uri.parse(Config.apiURL + "search/" + username),
         headers: {'Authorization': Config.token});
     try {
+   
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
 
         return res["users"];
       } else {
-        throw Exception('Failed to get the users');
-      }
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      } 
     } catch (e) {
       throw Exception('Failed to get the users');
     }
   }
+ 
+ Future<String> suggestionsUser(String userId) async {
+    final response = await get(
+        Uri.parse(Config.apiURL + "search/" + userId),
+        headers: {'Authorization': Config.token});
+    try {
+      if (response.statusCode == 200) {
+        var res = jsonDecode(response.body);
+        return "true";
+      } else {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      } 
+    } catch (e) {
+      throw Exception('Failed to get the users');
+    }
+  }
+
+Future<String> followUser(String loginUserId, String otherUserId) async { 
+    final response = await patch(
+        Uri.parse(Config.apiURL + "user/" + otherUserId + "/follow"),
+        headers: {'Authorization': Config.token},
+        body: {'following': otherUserId, "_id": loginUserId});
+    try {
+      if (response.statusCode == 200) {
+        jsonDecode(response.body);
+        return "true";
+      } else {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      }
+    } catch (e) {
+      throw Exception('Failed to follow the posts');
+    }
+  }
+Future<String> unFollowUser(String loginUserId, String otherUserId) async { 
+    final response = await patch(
+        Uri.parse(Config.apiURL + "user/" + otherUserId + "/follow"),
+        headers: {'Authorization': Config.token},
+        body: {'following': otherUserId, "_id": loginUserId});
+    try {
+      if (response.statusCode == 200) {
+        jsonDecode(response.body);
+        return "true";
+      } else {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      }
+    } catch (e) {
+      throw Exception('Failed to unfollow the user');
+    }
+  }
+
+Future<String> updateUser(UserModel user) async {
+    Map<String, dynamic> userMap = {
+      "_id":user.sId,
+      "fullname": user.fullname,
+      "email": user.email,
+      "username": user.username,
+      "mobile": user.mobile,
+      "website": user.website,
+      "gender":user.gender,
+      "story": user.story,
+      "address":user.address
+      }; 
+    final response = await patch(
+        Uri.parse(Config.apiURL + "user/"),
+        headers: {'Authorization': Config.token},
+        body: userMap);
+    try {
+      if (response.statusCode == 200) {
+        jsonDecode(response.body);
+        return "true";
+      } else {
+        var res = jsonDecode(response.body);
+        return res["msg"];
+      }
+    } catch (e) {
+      throw Exception('Failed to unfollow the user');
+    }
+  }
+
+
+
 
 }

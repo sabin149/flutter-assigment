@@ -5,20 +5,26 @@ class Config {
   static String apiURL = "http://10.0.2.2:5000/api/";
 
   static String token = "";
-
+  static String userId="";
+ 
   
 
   static Future<String?> loadToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = (prefs.getString('token') ?? '');
     return token;
+  } 
 
+  static Future<String?> loaduserId() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    userId = (prefs.getString('userId') ?? '');
+    return userId; 
   } 
 
   static Future<void> removeToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
-    prefs.remove('post');
+    prefs.remove('userId');
   }
 }
   

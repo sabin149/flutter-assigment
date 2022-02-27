@@ -3,8 +3,8 @@ import 'package:frontend/pages/shared/themes.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
 
-import '../../services/httpuser.dart';
-import '../shared/theme.dart';
+import '../../../services/httpuser.dart';
+import '../../shared/theme.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);

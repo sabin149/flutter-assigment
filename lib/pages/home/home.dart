@@ -10,12 +10,13 @@ class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
-
+ 
 class _HomeState extends State<Home> {
   bool isApiCallProcess = false;
   @override
   void initState() {
   Config.loadToken();
+  Config.loaduserId();
     super.initState(); 
   }
   @override

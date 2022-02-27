@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../shared/themes.dart';
 import '../shared/widgets/persistent_header.dart';
+import '../upload.dart';
 import '/model/user_model.dart';
 import '../../model/post_model.dart';
 import '../../services/httpuser.dart';
@@ -13,6 +14,7 @@ class Profile extends StatefulWidget {
   @override
   _ProfileState createState() => _ProfileState();
 }
+
 class _ProfileState extends State<Profile> {
   bool isApiCallProcess = false;
 
@@ -73,7 +75,12 @@ class _ProfileState extends State<Profile> {
                         width: 25,
                         margin: const EdgeInsets.only(left: defaultMargin),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Upload()));
+                          },
                           icon: Icon(
                             Icons.file_upload,
                             color: blackColor,
@@ -143,7 +150,6 @@ class _ProfileState extends State<Profile> {
                               child: Column(
                                 children: [
                                   Text(
-                                   
                                     "${model.data!.saved!.length}",
                                     style: TextStyle(
                                       fontSize: 18,
@@ -163,19 +169,30 @@ class _ProfileState extends State<Profile> {
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text(
-                                   
-                                    "${model.data!.followers!.length}",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: bold,
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/followers',
+                                          arguments: model.data);
+                                    },
+                                    child: Text(
+                                      "${model.data!.followers!.length}",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    "Followers",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: medium,
+                                  InkWell(
+                                    onTap: () {
+                                Navigator.pushNamed(context, '/followers',
+                                          arguments: model.data);
+                                    },
+                                    child: Text(
+                                      "Followers",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: medium,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -184,19 +201,32 @@ class _ProfileState extends State<Profile> {
                             Expanded(
                               child: Column(
                                 children: [
-                                  Text(
-                                    // "${post.user!.followers!.length}",
-                                    "${model.data!.following!.length}",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: bold,
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, '/followings',
+                                          arguments: model.data);
+                                    },
+                                    child: Text(
+                                      "${model.data!.following!.length}",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    "Followings",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: medium,
+                                  InkWell(
+                                     onTap: () {
+                                      Navigator.pushNamed(
+                                          context, '/followings',
+                                          arguments: model.data);
+                                    },
+                                    child: Text(
+                                      "Followings",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: medium,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -215,15 +245,12 @@ class _ProfileState extends State<Profile> {
                               horizontal: defaultMargin),
                           child: Text(
                             "${model.data!.fullname}",
-                            style: TextStyle(
-                              fontWeight: bold,
-                              fontSize: 18
-                            ), 
+                            style: TextStyle(fontWeight: bold, fontSize: 18),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        const SizedBox(height: 5), 
+                        const SizedBox(height: 5),
                         Container(
                           width: 100,
                           margin: const EdgeInsets.symmetric(
@@ -404,7 +431,7 @@ class _ProfileState extends State<Profile> {
                               ),
                             ),
                           );
-                        }, childCount: 5),
+                        }, childCount: 6),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
@@ -428,7 +455,7 @@ class _ProfileState extends State<Profile> {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                          ); 
+                          );
                         }, childCount: 3),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(

@@ -3,11 +3,10 @@ import 'package:frontend/model/post_model.dart';
 import 'package:http/http.dart' as http;
 import '../pages/shared/config.dart';
 
-class HttpConnectComment{
-  
-    String baseurl = Config.apiURL;
+class HttpConnectComment {
+  String baseurl = Config.apiURL;
   String mytoken = Config.token;
-  
+
   Future<String> createComment(Comments comment) async {
     Map<String, dynamic> createComment = {
       'content': comment.content,
@@ -32,7 +31,7 @@ class HttpConnectComment{
   }
 
   Future<String> updateComment(Comments comment, String id) async {
-   Map<String, String?> updateComment = {'content': comment.content};
+    Map<String, String?> updateComment = {'content': comment.content};
 
     final response = await http.put(
         Uri.parse(
@@ -71,13 +70,14 @@ class HttpConnectComment{
 
   Future<String> likeComment(String commentId, String userId) async {
     final response = await http.patch(
-        Uri.parse(Config.apiURL + "comment/" + commentId + "like"),
+        Uri.parse(Config.apiURL + "comment/" + commentId + "/like"),
         headers: {'Authorization': Config.token},
-        body: {'likes': userId});
+        body: {'likes': userId, "_id": commentId});
     try {
+   
       if (response.statusCode == 200) {
-        var res = jsonDecode(response.body);
-        return res["msg"];
+      jsonDecode(response.body);
+        return "true";
       } else {
         var res = jsonDecode(response.body);
         return res["msg"];
@@ -89,13 +89,16 @@ class HttpConnectComment{
 
   Future<String> unLikeComment(String commentId, String userId) async {
     final response = await http.patch(
-        Uri.parse(Config.apiURL + "comment/" + commentId + "unlike"),
+        Uri.parse(Config.apiURL + "comment/" + commentId + "/unlike"),
         headers: {'Authorization': Config.token},
-        body: {'likes': userId});
+        body: {'likes': userId,
+        "_id": commentId
+        
+        });
     try {
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
-        return res["msg"];
+        return "true";
       } else {
         var res = jsonDecode(response.body);
         return res["msg"];
@@ -104,5 +107,4 @@ class HttpConnectComment{
       throw Exception('Failed to get the discover posts');
     }
   }
-
 }

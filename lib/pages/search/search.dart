@@ -31,7 +31,7 @@ class _SearchState extends State<Search> {
         SafeArea(
           child: Row(
             children: [
-              const SizedBox(
+              const SizedBox( 
                 width: 15,
               ),
               Container(
