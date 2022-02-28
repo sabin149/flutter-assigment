@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:frontend/model/updateuser_model.dart';
 import 'package:frontend/model/user_model.dart';
 import 'package:frontend/pages/shared/config.dart';
 import 'package:http/http.dart';
@@ -12,7 +13,7 @@ class HttpConnectUser {
 
   SharedPreferences? prefs;
 
-  Future<String> registerPost(User user) async {
+  Future<String> registerUser(User user) async {
     Map<String, dynamic> userMap = {
       "fullname": user.fullname,
       "email": user.email,
@@ -30,7 +31,7 @@ class HttpConnectUser {
     }
   }
 
-  Future<String> loginPosts(String email, String password) async {
+  Future<String> loginUsers(String email, String password) async {
     Map<String, dynamic> loginStudent = {'email': email, 'password': password};
 
     prefs = await SharedPreferences.getInstance();
@@ -157,23 +158,25 @@ Future<String> unFollowUser(String loginUserId, String otherUserId) async {
     }
   }
 
-Future<String> updateUser(UserModel user) async {
+Future<String> updateUser(UpdateUserModel user) async {
     Map<String, dynamic> userMap = {
       "_id":user.sId,
       "fullname": user.fullname,
       "email": user.email,
       "username": user.username,
       "mobile": user.mobile,
-      "website": user.website,
-      "gender":user.gender,
       "story": user.story,
-      "address":user.address
+      "avatar": user.avatar
       }; 
+
+
     final response = await patch(
         Uri.parse(Config.apiURL + "user/"),
         headers: {'Authorization': Config.token},
         body: userMap);
+  
     try {
+      // print(response.body);
       if (response.statusCode == 200) {
         jsonDecode(response.body);
         return "true";

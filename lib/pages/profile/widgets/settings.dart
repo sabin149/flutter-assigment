@@ -31,16 +31,16 @@ class Settings extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Padding( 
+            Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 40),
-                    ),
+                  minimumSize: const Size(double.infinity, 40),
+                ),
                 onPressed: () {
                   Provider.of<ThemeProvider>(context, listen: false)
                       .swapTheme();
-                }, 
+                },
                 icon: const Icon(
                   Icons.brightness_6,
                   size: 28,
@@ -56,20 +56,54 @@ class Settings extends StatelessWidget {
               child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 40),
-                    primary:blueColor),
-                onPressed: () async {
-                  var res = await HttpConnectUser.logout();
-                  if (res) {
-                    Navigator.pushNamed(context, '/login');
-                    MotionToast.success(
-                            description: const Text('Logout Successfully'))
-                        .show(context);
-                  } else {
-                    MotionToast.error(
-                            description: const Text(' Failed to logout'))
-                        .show(context);
-                  }
-                },
+                    primary: blueColor),
+                // onPressed: () async {
+                //   var res = await HttpConnectUser.logout();
+                //   if (res) {
+                //     Navigator.pushNamed(context, '/login');
+                //     MotionToast.success(
+                //             description: const Text('Logout Successfully'))
+                //         .show(context);
+                //   } else {
+                //     MotionToast.error(
+                //             description: const Text(' Failed to logout'))
+                //         .show(context);
+                //   }
+                // },
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text('Logout'),
+                      content: const Text('Are you sure you want to logout?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Cancel'),
+                        ),
+                        TextButton(
+                          onPressed: () async {
+                            var res = await HttpConnectUser.logout();
+                            if (res) {
+                              Navigator.pushNamed(context, '/login');
+                              MotionToast.success(
+                                      description:
+                                          const Text('Logout Successfully'))
+                                  .show(context);
+                            } else {
+                              MotionToast.error(
+                                      description:
+                                          const Text(' Failed to logout'))
+                                  .show(context);
+                            }
+                          },
+                          child: const Text('Logout'),
+                        ),
+                      ],
+                    ),
+                  );
+                }, 
+
                 icon: const Icon(
                   Icons.people,
                   size: 28,

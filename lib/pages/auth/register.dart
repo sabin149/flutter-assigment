@@ -41,7 +41,7 @@ class _RegisterState extends State<Register> {
   }
 
   Future<String> registerUser(User u) {
-    var res = HttpConnectUser().registerPost(u);
+    var res = HttpConnectUser().registerUser(u);
     return res;
   }
 

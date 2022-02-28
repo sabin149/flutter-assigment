@@ -1,70 +1,73 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:snippet_coder_utils/ProgressHUD.dart';
-import '../shared/themes.dart';
-import '../shared/widgets/persistent_header.dart';
-import '../upload.dart';
-import '/model/user_model.dart';
-import '../../model/post_model.dart';
-import '../../services/httpuser.dart';
+import 'package:frontend/pages/shared/config.dart';
+import 'package:frontend/services/httppost.dart';
+import '../../../model/get_userposts_model.dart';
+import '../../../model/user_model.dart';
+import '../../../services/httpuser.dart';
+import '../../shared/themes.dart';
+import '../../shared/widgets/persistent_header.dart';
+import '../../upload.dart';
 
-class Profile extends StatefulWidget {
-  final PostModel? post;
-  const Profile({Key? key, this.post, String? id}) : super(key: key);
+
+class MyProfile extends StatefulWidget {
+  const MyProfile({ Key? key }) : super(key: key);
+
   @override
-  _ProfileState createState() => _ProfileState();
+  _MyProfileState createState() => _MyProfileState();
 }
 
-class _ProfileState extends State<Profile> {
-  bool isApiCallProcess = false;
+class _MyProfileState extends State<MyProfile> {
+    bool isApiCallProcess = false;
+
+    late Future<UserModel> futureUser;
+    late Future<List<GetUserPostsModel>> futurePost;
+
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
+    futureUser = HttpConnectUser().getUserDetails(Config.userId);
+    futurePost=HttpConnectPost().getUserPosts(Config.userId);
   }
-
   @override
   Widget build(BuildContext context) {
-    final post = ModalRoute.of(context)!.settings.arguments as PostModel;
-
     return Scaffold(
-      body: ProgressHUD(
-        child: loadUserDetails(post.user!.sId),
-        inAsyncCall: isApiCallProcess,
-        opacity: 0.3,
-        key: UniqueKey(),
+     
+    body:FutureBuilder<UserModel>(
+        future: futureUser,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return myUserDetails(snapshot.data);  
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return const CircularProgressIndicator();
+        },
       ),
     );
   }
 
-  Widget loadUserDetails(userid) {
-    return FutureBuilder(
-      future: HttpConnectUser().getUserDetails(userid),
-      builder: (
-        BuildContext context,
-        AsyncSnapshot<UserModel?> model,
-      ) {
-        if (model.hasData) {
-          return DefaultTabController(
+  Widget myUserDetails(UserModel? data) {
+    return DefaultTabController(
             length: 2,
             child: NestedScrollView(
               headerSliverBuilder: (context, index) {
                 return [
                   SliverAppBar(
-                    automaticallyImplyLeading: true,
                     centerTitle: false,
                     pinned: true,
-                    backgroundColor: whiteColor,
                     elevation: 0,
                     title: Row(
-                      children: [
+                      children: [ 
                         Text(
-                          "${model.data!.username}",
+                          "User Profile",
                           style: TextStyle(
-                            color: blackColor,
                             fontWeight: bold,
-                            fontSize: 24,
-                          ),
+                            fontSize: 20,
+                          ), 
                         ),
                         const SizedBox(width: 5),
                       ],
@@ -81,9 +84,8 @@ class _ProfileState extends State<Profile> {
                                 MaterialPageRoute(
                                     builder: (context) => const Upload()));
                           },
-                          icon: Icon(
+                          icon: const Icon(
                             Icons.file_upload,
-                            color: blackColor,
                             size: 28,
                           ),
                         ),
@@ -93,9 +95,8 @@ class _ProfileState extends State<Profile> {
                         onPressed: () {
                           Navigator.pushNamed(context, '/settings');
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           FontAwesomeIcons.bars,
-                          color: blackColor,
                           size: 24,
                         ),
                       ),
@@ -104,7 +105,25 @@ class _ProfileState extends State<Profile> {
                   SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: [ 
+                        const SizedBox(height: 10),
+                        Row( 
+                          children: [
+              
+                             const SizedBox(width: 14),
+                            const Icon(Icons.lock),
+                            const SizedBox(width: 10),
+                            Text(
+                              "${data!.username}",
+                              style: TextStyle( 
+                                fontWeight: bold,
+                                fontSize: 24,
+                              ),  
+                            ),
+                            const SizedBox(width: 5),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
                         Row(
                           children: [
                             Container(
@@ -122,11 +141,11 @@ class _ProfileState extends State<Profile> {
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
-                                              "${model.data!.avatar}"),
+                                              "${data.avatar}"),
                                         ),
                                       ),
                                     ),
-                                  ),
+                                  ), 
                                   Positioned(
                                     right: 0,
                                     bottom: 0,
@@ -150,7 +169,7 @@ class _ProfileState extends State<Profile> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "${model.data!.saved!.length}",
+                                    "${data.saved!.length}",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: bold,
@@ -172,10 +191,10 @@ class _ProfileState extends State<Profile> {
                                   InkWell(
                                     onTap: () {
                                       Navigator.pushNamed(context, '/followers',
-                                          arguments: model.data);
+                                          arguments: data);
                                     },
                                     child: Text(
-                                      "${model.data!.followers!.length}",
+                                      "${data.followers!.length}",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: bold,
@@ -184,8 +203,8 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                Navigator.pushNamed(context, '/followers',
-                                          arguments: model.data);
+                                      Navigator.pushNamed(context, '/followers',
+                                          arguments: data);
                                     },
                                     child: Text(
                                       "Followers",
@@ -205,10 +224,10 @@ class _ProfileState extends State<Profile> {
                                     onTap: () {
                                       Navigator.pushNamed(
                                           context, '/followings',
-                                          arguments: model.data);
+                                          arguments:data);
                                     },
                                     child: Text(
-                                      "${model.data!.following!.length}",
+                                      "${data.following!.length}",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: bold,
@@ -216,10 +235,10 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                   InkWell(
-                                     onTap: () {
+                                    onTap: () {
                                       Navigator.pushNamed(
                                           context, '/followings',
-                                          arguments: model.data);
+                                          arguments: data);
                                     },
                                     child: Text(
                                       "Followings",
@@ -232,19 +251,16 @@ class _ProfileState extends State<Profile> {
                                 ],
                               ),
                             ),
-                            // posts(model.data.),
-                            // followers(),
-                            // followings(model),
                             const SizedBox(width: 20),
                           ],
                         ),
                         const SizedBox(height: 10),
                         Container(
-                          width: 100,
+                          width: 200,
                           margin: const EdgeInsets.symmetric(
                               horizontal: defaultMargin),
                           child: Text(
-                            "${model.data!.fullname}",
+                            "${data.fullname}",
                             style: TextStyle(fontWeight: bold, fontSize: 18),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
@@ -252,11 +268,11 @@ class _ProfileState extends State<Profile> {
                         ),
                         const SizedBox(height: 5),
                         Container(
-                          width: 100,
-                          margin: const EdgeInsets.symmetric(
+                          width: 200, 
+                          margin: const EdgeInsets.symmetric (
                               horizontal: defaultMargin),
                           child: Text(
-                            "${model.data!.story}",
+                            "${data.story}",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: normal,
@@ -281,11 +297,16 @@ class _ProfileState extends State<Profile> {
                                       ),
                                     ),
                                   ),
-                                  onPressed: () {},
-                                  child: Text(
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, '/editprofile',
+                                        arguments: data);
+                                        
+                                  },
+                                  child: const Text(
                                     "Edit Profile",
                                     style: TextStyle(
-                                      color: blackColor,
+                                      fontSize: 16,
                                     ),
                                   ),
                                 ),
@@ -303,10 +324,9 @@ class _ProfileState extends State<Profile> {
                                     ),
                                   ),
                                   onPressed: () {},
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.expand_more_outlined,
                                     size: 20,
-                                    color: blackColor,
                                   ),
                                 ),
                               ),
@@ -470,11 +490,8 @@ class _ProfileState extends State<Profile> {
               ),
             ),
           );
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
   }
 }
+    
+
+

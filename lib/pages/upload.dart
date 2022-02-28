@@ -1,7 +1,7 @@
 import 'dart:io';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:frontend/model/post_model.dart';
 import 'package:frontend/pages/shared/config.dart';
 import 'package:frontend/pages/shared/themes.dart';
 import 'package:frontend/services/httppost.dart';
@@ -33,7 +33,12 @@ class _UploadState extends State<Upload> {
     return res;
   }
 
-  //method to open image from gallery
+    Future<String?> updatePost(String content, String userId) {
+    var res = HttpConnectPost().updatePosts(content, userId);
+    return res;
+  }
+
+
   _imageFromGallery() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     setState(() {
@@ -41,7 +46,6 @@ class _UploadState extends State<Upload> {
     });
   }
 
-  //method to open image from camera
   _imageFromCamera() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
     setState(() {
@@ -52,6 +56,8 @@ class _UploadState extends State<Upload> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Upload Post'),),
       body: ListView(
         children: [
           Column(
@@ -79,7 +85,7 @@ class _UploadState extends State<Upload> {
                         ),
                         Stack(
                           children: [
-                            AspectRatio(
+                            AspectRatio( 
                               aspectRatio: 1,
                               child: Container(
                                 decoration: BoxDecoration(
@@ -107,7 +113,7 @@ class _UploadState extends State<Upload> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: const [
                                       SizedBox(
-                                        height: 30,
+                                        height: 40,
                                       ),
                                       Icon(
                                         Icons.upload,
@@ -142,15 +148,22 @@ class _UploadState extends State<Upload> {
                               _formkey.currentState!.save();
                              
                            
-                              await HttpConnectPost().createPosts(content, 
+                            await HttpConnectPost().createPosts(content, 
                               Config.userId); 
                                 // content: content,
                                 // user: "61ba2991ffa8a257546e32f0",
+                                  AwesomeNotifications().createNotification(
+                                      content: NotificationContent(
+                                    id: 1,
+                                    channelKey: 'letsconnect', 
+                                    title: 'Success',
+                                    body: 'Post created successfully',
+                                  ));
                           
+                      
                               MotionToast.success(
                                   description: const Text("Post Created")).show(context);
-                              Navigator.pushReplacementNamed(context, "/");
-                                  // print(post.content);
+                         
                             
                             }
                           }, 

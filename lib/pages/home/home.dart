@@ -6,12 +6,15 @@ import '/pages/home/widgets/post_item.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 
 class Home extends StatefulWidget {
-  const Home( {Key? key}) : super(key: key);
+  final PostModel ?post;
+
+  const Home( {Key? key, this.post}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
  
 class _HomeState extends State<Home> {
+
   bool isApiCallProcess = false;
   @override
   void initState() {
@@ -24,23 +27,19 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           "Let's Connect",
           style:
-              TextStyle(fontFamily: "Genel", fontSize: 30, color: Colors.black),
+              TextStyle(fontFamily: "Genel", fontSize: 30,),
         ), 
         actions: [
           IconButton(
             icon: const Icon(
               Icons.messenger,  
               size: 20, 
-              color: Colors.black,
             ),
-            onPressed: () { 
-              Navigator.pushNamed(context, "/settings");
-             
+            onPressed: () {              
             }, 
           ),
         ],

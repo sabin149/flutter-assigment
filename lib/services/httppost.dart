@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:frontend/model/get_userposts_model.dart';
 import 'package:frontend/model/getdiscoverposts_model.dart';
 import 'package:frontend/model/post_model.dart';
-import 'package:frontend/response/posts/getdiscoverposts_resp.dart';
 import 'package:frontend/response/posts/getpost_resp.dart';
 import 'package:frontend/response/posts/getuserposts_resp.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +14,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class HttpConnectPost {
   String baseurl = Config.apiURL;
   String mytoken = Config.token;
+   
 
  static decodeToken () async{
   String yourToken = Config.token;
@@ -34,7 +34,7 @@ class HttpConnectPost {
     try {
       if (response.statusCode == 200) {
         var res = ResponseGetPost.fromJson(jsonDecode(response.body));
-  
+      
         return res.posts;
       } else {
         throw Exception('Failed to get the post');
@@ -44,7 +44,7 @@ class HttpConnectPost {
     }
   }
 
-  static Future<List<GetUserPostsModel>> getUserPosts(String id) async {
+   Future<List<GetUserPostsModel>> getUserPosts(String id) async {
     final response = await http.get(
         Uri.parse(Config.apiURL + "user_posts/" + id),
         headers: {'Authorization': Config.token});
@@ -84,8 +84,8 @@ class HttpConnectPost {
     try {
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body) as Map;
-//  print(res["posts"][0]);
-        return res["posts"][0]; 
+
+        return res["posts"]; 
       } else {
         throw Exception('Failed to get the discover posts');
       }
@@ -143,11 +143,27 @@ class HttpConnectPost {
       return "false"; 
     }
 
-    // if (file != null) {
-    //   var jsonData = jsonDecode(response.body);
-    //   uploadImage(file.path, jsonData['data']['_id']);
-    // }
-    // Fluttertoast.showToast(msg: "Post uploaded successfully");
+    
+  }
+  Future<String> updatePosts(String content, String userId) async {
+    Map<String, dynamic> postMap = {
+      'content': content, 
+      'user': userId,
+    };
+    final response =
+        await http.post(Uri.parse(baseurl + 'posts/'), body: postMap, headers: {
+      'Authorization': Config.token,
+    }); 
+  
+    if (response.statusCode == 200) {
+      jsonDecode(response.body) as Map;
+
+      return "true";
+    } else {
+      return "false"; 
+    }
+
+    
   }
 
   Future<String> likePost(String postId, String userId) async {
