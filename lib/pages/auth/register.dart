@@ -41,7 +41,7 @@ class _RegisterState extends State<Register> {
   }
 
   Future<String> registerUser(User u) {
-    var res = HttpConnectUser().registerPost(u);
+    var res = HttpConnectUser().registerUser(u);
     return res;
   }
 
@@ -82,7 +82,8 @@ class _RegisterState extends State<Register> {
                           width: 0.3,
                         ),
                       ),
-                      child: TextFormField(
+                      child: TextField(
+                        key:const ValueKey("fullname"),
                         controller: _fullnameController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(

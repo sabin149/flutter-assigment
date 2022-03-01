@@ -10,7 +10,8 @@ class PostModel {
   int? iV;
 
   PostModel(
-      {this.sId,
+      {
+        this.sId,
       this.content,
       this.images,
       this.likes,
@@ -263,6 +264,29 @@ class CommentLikes {
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
+    return data;
+  }
+
+  
+}
+class UploadImage {
+  String? images;
+  String? content;
+  String? user;
+
+  UploadImage({this.images, this.content, this.user});
+
+  UploadImage.fromJson(Map<String, dynamic> json) {
+    images = json['images'];
+    content = json['content'];
+    user = json['user'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  <String, dynamic>{};
+    data['images'] = images;
+    data['content'] = content;
+    data['user'] = user;
     return data;
   }
 }

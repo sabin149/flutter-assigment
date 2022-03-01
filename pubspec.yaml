@@ -1,5 +1,5 @@
 name: frontend
-description: A new Flutter project.
+description: Lets connect app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -17,7 +17,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
-environment:
+environment: 
   sdk: ">=2.16.0 <3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
@@ -48,13 +48,19 @@ dependencies:
   carousel_slider: ^4.0.0
   image_picker: ^0.8.4+9
   awesome_notifications: ^0.6.21
-
+  jwt_decoder: ^2.0.1
+  shake: ^2.0.0
+  floor: ^1.2.0
+  floor_generator: ^1.2.0
+  build_runner: ^2.1.7
+  all_sensors2: ^1.0.1
+  mockito: ^5.1.0
+ 
   
 dev_dependencies: 
-  flutter_test: 
+  flutter_test:  
     sdk: flutter
   json_serializable: ^6.1.4
-  build_runner: ^2.1.7
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

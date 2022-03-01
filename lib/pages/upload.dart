@@ -1,12 +1,12 @@
+import 'dart:io';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+import 'package:frontend/pages/shared/config.dart';
+import 'package:frontend/pages/shared/themes.dart';
 import 'package:frontend/services/httppost.dart';
-import 'package:snippet_coder_utils/ProgressHUD.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:snippet_coder_utils/FormHelper.dart';
-import 'package:snippet_coder_utils/hex_color.dart';
-
-import '../model/post_model.dart';
-import 'shared/config.dart';
+import 'package:motion_toast/motion_toast.dart';
 
 class Upload extends StatefulWidget {
   const Upload({Key? key}) : super(key: key);
@@ -16,216 +16,210 @@ class Upload extends StatefulWidget {
 }
 
 class _UploadState extends State<Upload> {
-  String imgUrl = "";
-  String pickedImagePath = "";
-  PostModel? postModel;
-  static final GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
-  bool isApiCallProcess = false;
-  List<Object> images = [];
-  bool isEditMode = false;
-  bool isImageSelected = false;
+  final _formkey = GlobalKey<FormState>();
+  File? _image;
+
+   String content = '';
+
+
+  @override
+  void initState() {
+    super.initState(); 
+    _image = null;
+  }
+
+    Future<String?> createPost(String content, String userId) {
+    var res = HttpConnectPost().createPosts(content, userId);
+    return res;
+  }
+
+    Future<String?> updatePost(String content, String userId) {
+    var res = HttpConnectPost().updatePosts(content, userId);
+    return res;
+  }
+
+
+  _imageFromGallery() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = File(image!.path);
+    });
+  }
+
+  _imageFromCamera() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      _image = File(image!.path);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Upload'),
-      ),
-      body: ProgressHUD(
-        child: Form(
-          key: globalFormKey,
-          child: postForm(),
-        ),
-        inAsyncCall: isApiCallProcess,
-        opacity: 0.3,
-        key: UniqueKey(),
-      ),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    postModel = PostModel();
-
-    Future.delayed(Duration.zero, () {
-      if (ModalRoute.of(context)?.settings.arguments != null) {
-        final Map arguments = ModalRoute.of(context)?.settings.arguments as Map;
-        postModel = arguments['model'];
-        isEditMode = true;
-        setState(() {});
-      }
-    });
-  }
-
-  Widget postForm() {
-    return SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        title: const Text('Upload Post'),),
+      body: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              bottom: 10,
-              top: 10,
-            ),
-            child: FormHelper.inputFieldWidget(
-              context,
-              "Content",
-              "Content",
-              (onValidateVal) {
-                if (onValidateVal.isEmpty) {
-                  return 'Content can\'t be empty.';
-                }
-                return null;
-              },
-              (onSavedVal) => {
-                postModel!.content = onSavedVal,
-              },
-              initialValue: postModel!.content ?? "",
-              obscureText: false,
-              borderFocusColor: Colors.black,
-              borderColor: Colors.black,
-              textColor: Colors.black,
-              hintColor: Colors.black.withOpacity(0.7),
-              borderRadius: 10,
-              showPrefixIcon: false,
-            ),
-          ),
-
-          picPicker(
-            isImageSelected,
-            postModel!.images,
-            (file) => {
-              setState(
-                () {
-                  //model.productPic = file.path;
-                  postModel!.images = file.path;
-                  isImageSelected = true;
-                },
-              )
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-  
-          Center(
-            child: FormHelper.submitButton(
-              "Save",
-              () {
-                if (validateAndSave()) {
-                  setState(() {
-                    isApiCallProcess = true;
-                  });
-
-                  HttpConnectPost.createPost(
-                    imgUrl,
-                    postModel!,
-                    isEditMode,
-                    isImageSelected,
-                  ).then(
-                    (response) {
-                      setState(() {
-                        isApiCallProcess = false;
-                      });
-
-                      if (response) {
-                        Navigator.pushNamedAndRemoveUntil(
-                          context,
-                          '/',
-                          (route) => false,
-                        );
-                      } else {
-                        FormHelper.showSimpleAlertDialog(
-                          context,
-                          Config.appName,
-                          "Error occur",
-                          "OK",
-                          () {
-                            Navigator.of(context).pop();
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Form(
+                    key: _formkey,
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Add New Post',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: blueColor,
+                                letterSpacing: 5.0),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Stack(
+                          children: [
+                            AspectRatio( 
+                              aspectRatio: 1,
+                              child: Container(
+                                decoration: BoxDecoration(
+                            
+                                  image: _image != null
+                                      ? DecorationImage(
+                                          image: FileImage(_image!),
+                                          fit: BoxFit.cover)
+                                      : const DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/noImageSelected.jpg',
+                                              
+                                              ),
+                                        ),
+                                ),
+                            
+                            
+                                child: InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        context: context,
+                                        builder: (builder) => bottomSheet());
+                                  },
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      SizedBox(
+                                        height: 40,
+                                      ),
+                                      Icon(
+                                        Icons.upload,
+                                        color: Colors.red,
+                                        size: 30,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          onSaved: (value) {
+                            content = value!;
                           },
-                        );
-                      }
-                    },
-                  );
-                }
-              },
-              btnColor: HexColor("283B71"),
-              borderColor: Colors.white,
-              txtColor: Colors.white,
-              borderRadius: 10,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
+                          validator: RequiredValidator(errorText: "required field"),
+                          decoration: const InputDecoration(
+                              labelText: 'Add the post caption',
+                              hintText: 'Enter new caption',
+                              border: OutlineInputBorder()),
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 50),
+                          ),
+                          onPressed: () async{
+                             if (_formkey.currentState!.validate()) {
+                              _formkey.currentState!.save();
+                             
+                           
+                            await HttpConnectPost().createPosts(content, 
+                              Config.userId); 
+                                // content: content,
+                                // user: "61ba2991ffa8a257546e32f0",
+                                  AwesomeNotifications().createNotification(
+                                      content: NotificationContent(
+                                    id: 1,
+                                    channelKey: 'letsconnect', 
+                                    title: 'Success',
+                                    body: 'Post created successfully',
+                                  ));
+                          
+                      
+                              MotionToast.success(
+                                  description: const Text("Post Created")).show(context);
+                         
+                            
+                            }
+                          }, 
+                          child: const Text('Add Post'),
+                        ),
+                      ],
+                    )),
+              ), 
+            ],
           ),
         ],
       ),
     );
   }
 
-  bool validateAndSave() {
-    final form = globalFormKey.currentState;
-    if (form!.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
-  }
-
-  static Widget picPicker(
-    bool isImageSelected,
-    List<Images>? fileNames,
-    Function onFilePicked,
-  ) {
-    Future<XFile?> _imageFile;
-    ImagePicker _picker = ImagePicker();
-    return Column(
-      children: [
-        Center(
-          child: SizedBox(
-            child: Image.network(
-              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png",
-              width: 200,
-              height: 200,
-              fit: BoxFit.scaleDown,
-            ),
+//widget to build a bottomsheet for image
+  Widget bottomSheet() {
+    return Container(
+      height: 100,
+      width: MediaQuery.of(context).size.width,
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: Column(
+        children: [
+          const Text(
+            'Choose post photo',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 35.0,
-              width: 35.0,
-              child: IconButton(
-                padding: const EdgeInsets.all(0),
-                icon: const Icon(Icons.image, size: 35.0),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(
                 onPressed: () {
-                  _imageFile = _picker.pickImage(source: ImageSource.gallery);
-                  _imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
+                  _imageFromCamera();
+                  Navigator.pop(context);
                 },
+                icon: const Icon(Icons.camera),
+                label: const Text('Camera'),
               ),
-            ),
-            SizedBox(
-              height: 35.0,
-              width: 35.0,
-              child: IconButton(
-                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                icon: const Icon(Icons.camera, size: 35.0),
+              const SizedBox(
+                width: 20,
+              ),
+              ElevatedButton.icon(
                 onPressed: () {
-                  _imageFile = _picker.pickImage(source: ImageSource.camera);
-                  _imageFile.then((file) async {
-                    onFilePicked(file);
-                  });
+                  _imageFromGallery();
+                  Navigator.pop(context);
                 },
+                icon: const Icon(Icons.image),
+                label: const Text('Gallery'),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
