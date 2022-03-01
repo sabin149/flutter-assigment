@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      " Let's Connect",
+                      "Let's Connect",
                       textWidthBasis: TextWidthBasis.parent,
                       style:
                           TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
@@ -85,7 +85,7 @@ class _LoginState extends State<Login> {
                           ),
                           suffixIcon: GestureDetector(
                             onTap: () {
-                              setState(() {
+                              setState(() { 
                                 _isEmailValid = !_isEmailValid;
                                 _emailController.clear();
                               });

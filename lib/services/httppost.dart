@@ -17,7 +17,7 @@ class HttpConnectPost {
    
 
  static decodeToken () async{
-  String yourToken = Config.token;
+  String yourToken = Config.token; 
    Map<String, dynamic> decodedToken = JwtDecoder.decode(yourToken);
 
   var userId=decodedToken["id"];
@@ -34,8 +34,7 @@ class HttpConnectPost {
     try {
       if (response.statusCode == 200) {
         var res = ResponseGetPost.fromJson(jsonDecode(response.body));
-      
-        return res.posts;
+                return res.posts;
       } else {
         throw Exception('Failed to get the post');
       } 
@@ -51,13 +50,12 @@ class HttpConnectPost {
     try {
       if (response.statusCode == 200) {
         var res = ResponseGetUserPosts.fromJson(jsonDecode(response.body));
-
         return res.posts;
       } else {
         throw Exception('Failed to get the user posts');
       }
     } catch (e) {
-      throw Exception('Failed to get the user postsss');
+      throw Exception('Failed to get the user post');
     }
   }
 

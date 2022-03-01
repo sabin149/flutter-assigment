@@ -13,7 +13,7 @@ import 'package:shake/shake.dart';
 import 'package:all_sensors2/all_sensors2.dart';
 
 import 'shared/theme.dart';
-
+ 
 class BottomNavigationbar extends StatefulWidget {
   const BottomNavigationbar({
     Key? key,

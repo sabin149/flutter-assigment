@@ -243,8 +243,7 @@ class _CommentsPageState extends State<CommentsPage> {
 
                                           if (res == "Deleted Comment!") {
                                             Navigator.pushReplacementNamed(
-                                                context, "/comments");
-
+                                                context, "/");
                                             MotionToast.success(
                                               description: Text(res),
                                             ).show(context);

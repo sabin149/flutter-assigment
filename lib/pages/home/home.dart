@@ -39,7 +39,11 @@ class _HomeState extends State<Home> {
               Icons.messenger,  
               size: 20, 
             ),
-            onPressed: () {              
+            onPressed: () { 
+              Navigator.pushNamed(context, "/settings",
+              arguments: widget.post 
+              );
+             
             }, 
           ),
         ],

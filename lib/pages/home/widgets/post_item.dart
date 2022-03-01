@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:frontend/database/post_database.instance.dart';
 import 'package:frontend/entity/post_entity.dart';
+import 'package:frontend/pages/shared/config.dart';
 import 'package:frontend/pages/shared/themes.dart';
 import 'package:frontend/services/httppost.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -95,8 +96,6 @@ PostEntity postdta=PostEntity(
  setState(() {
      insertPostData(postdta); 
  });
-
-
     return Container(
       decoration: BoxDecoration(
         border: Border(
@@ -111,9 +110,14 @@ PostEntity postdta=PostEntity(
           ListTile(
             leading: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/profile',
+                 widget.post!.user!.sId==Config.userId?
+                 Navigator.pushNamed(context, '/myprofile',
+                    arguments: widget.post):
+                    Navigator.pushNamed(context, '/profile',
                     arguments: widget.post);
+
               },
+             
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
                   '${widget.post!.user!.avatar}',
@@ -122,6 +126,8 @@ PostEntity postdta=PostEntity(
             ),
             title: InkWell(
               onTap: () {
+
+                
                 Navigator.pushNamed(context, '/profile',
                     arguments: widget.post);
               },

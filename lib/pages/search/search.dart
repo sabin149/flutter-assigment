@@ -13,8 +13,11 @@ class Search extends StatefulWidget {
 
 class _SearchState extends State<Search> {
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {  
     return Scaffold( 
+      appBar: AppBar(
+        title:const Text('Search'),
+      ),
       body: getSearch(),
       );
   }

@@ -202,7 +202,7 @@ class _EditProfileState extends State<EditProfile> {
                                       description:
                                           const Text("Profile Updated"))
                                   .show(context);
-                                Navigator.pop(context); 
+                             
                                  
                             } else {
                               MotionToast.error(

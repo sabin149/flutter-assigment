@@ -5,9 +5,7 @@ class GetUserPostsModel {
   List<String>? likes;
   List<String>? comments;
   String? user;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
+
 
   GetUserPostsModel(
       {this.sId,
@@ -16,9 +14,7 @@ class GetUserPostsModel {
       this.likes,
       this.comments,
       this.user,
-      this.createdAt,
-      this.updatedAt,
-      this.iV});
+ });
 
   GetUserPostsModel.fromJson(Map<String, dynamic> json) {
 //  print(json[1]);
@@ -51,9 +47,7 @@ class GetUserPostsModel {
     data['likes'] = likes;
     data['comments'] = comments;
     data['user'] = user;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
-    data['__v'] = iV;
+
     return data;
   }
 }

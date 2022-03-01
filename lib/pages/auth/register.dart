@@ -82,7 +82,8 @@ class _RegisterState extends State<Register> {
                           width: 0.3,
                         ),
                       ),
-                      child: TextFormField(
+                      child: TextField(
+                        key:const ValueKey("fullname"),
                         controller: _fullnameController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(

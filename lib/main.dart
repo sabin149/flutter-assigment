@@ -4,15 +4,10 @@ import 'package:frontend/pages/profile/widgets/followers.dart';
 import 'package:frontend/pages/profile/widgets/followings.dart';
 import 'package:frontend/pages/profile/widgets/profile.dart';
 import 'package:frontend/pages/profile/widgets/settings.dart';
-import 'package:frontend/pages/shared/themes.dart';
-
 import '/pages/shared/homepage.dart';
-
 import '/pages/comment/comment.dart';
 import '/pages/auth/register.dart';
-
 import 'pages/profile/userprofile.dart';
-
 import 'pages/auth/login.dart';
 import 'pages/bottom_navbar.dart';
 import 'package:provider/provider.dart';
@@ -20,12 +15,10 @@ import 'pages/shared/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
  
-
- 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  AwesomeNotifications().initialize(null, // icon for your app notification
-      [
+  AwesomeNotifications().initialize(null, 
+      [          
         NotificationChannel(
             channelKey: 'letsconnect',
             channelName: 'letsconnect',
@@ -34,7 +27,7 @@ void main() async{
             ledColor: Colors.white,
             playSound: true, 
             enableLights: true,
-            enableVibration: true)
+            enableVibration: true) 
       ]);
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.getInstance().then((prefs) {
@@ -55,13 +48,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-   
     return Consumer<ThemeProvider>( 
       builder: (context, value, child) {
         return MaterialApp(
-          
-            // visualDensity: VisualDensity.adaptivePlatformDensity,
           debugShowCheckedModeBanner: false,
           title: "Let's App",
           theme: value.getTheme(),
@@ -84,6 +73,6 @@ class MyApp extends StatelessWidget {
       },
     );
   }
-
-}
  
+}
+    

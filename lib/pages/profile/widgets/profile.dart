@@ -1,69 +1,64 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:frontend/pages/shared/config.dart';
-import 'package:frontend/services/httppost.dart';
-import '../../../model/get_userposts_model.dart';
+import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../../../model/user_model.dart';
 import '../../../services/httpuser.dart';
 import '../../shared/themes.dart';
 import '../../shared/widgets/persistent_header.dart';
 import '../../upload.dart';
 
-
 class MyProfile extends StatefulWidget {
-  const MyProfile({ Key? key }) : super(key: key);
+  const MyProfile({Key? key}) : super(key: key);
 
   @override
   _MyProfileState createState() => _MyProfileState();
 }
 
 class _MyProfileState extends State<MyProfile> {
-    bool isApiCallProcess = false;
+  bool isApiCallProcess = false;
 
-    late Future<UserModel> futureUser;
-    late Future<List<GetUserPostsModel>> futurePost;
-
+  late Future<UserModel> futureUser;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    futureUser = HttpConnectUser().getUserDetails(Config.userId);
-    futurePost=HttpConnectPost().getUserPosts(Config.userId);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     
-    body:FutureBuilder<UserModel>(
-        future: futureUser,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return myUserDetails(snapshot.data);  
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return const CircularProgressIndicator();
-        },
+      
+      body: ProgressHUD(
+        child: loadUserDetails(Config.userId),
+        inAsyncCall: isApiCallProcess,
+        opacity: 0.3,
+        key: UniqueKey(),
       ),
     );
   }
 
-  Widget myUserDetails(UserModel? data) {
-    return DefaultTabController(
+  Widget loadUserDetails(userid) {
+    return FutureBuilder(
+      future: HttpConnectUser().getUserDetails(userid),
+      builder: (
+        BuildContext context,
+        AsyncSnapshot<UserModel?> model,
+      ) {
+        if (model.hasData) {
+          return DefaultTabController(
             length: 2,
             child: NestedScrollView(
               headerSliverBuilder: (context, index) {
                 return [
                   SliverAppBar(
                     centerTitle: false,
-                    pinned: true,
+                    pinned: true, //
                     elevation: 0,
                     title: Row(
                       children: [ 
                         Text(
-                          "User Profile",
+                          "My Profile",
                           style: TextStyle(
                             fontWeight: bold,
                             fontSize: 20,
@@ -114,7 +109,7 @@ class _MyProfileState extends State<MyProfile> {
                             const Icon(Icons.lock),
                             const SizedBox(width: 10),
                             Text(
-                              "${data!.username}",
+                              "${model.data!.username}",
                               style: TextStyle( 
                                 fontWeight: bold,
                                 fontSize: 24,
@@ -141,11 +136,11 @@ class _MyProfileState extends State<MyProfile> {
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
-                                              "${data.avatar}"),
+                                              "${model.data!.avatar}"),
                                         ),
                                       ),
                                     ),
-                                  ), 
+                                  ),
                                   Positioned(
                                     right: 0,
                                     bottom: 0,
@@ -169,7 +164,7 @@ class _MyProfileState extends State<MyProfile> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "${data.saved!.length}",
+                                    "${model.data!.saved!.length}",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: bold,
@@ -191,10 +186,10 @@ class _MyProfileState extends State<MyProfile> {
                                   InkWell(
                                     onTap: () {
                                       Navigator.pushNamed(context, '/followers',
-                                          arguments: data);
+                                          arguments: model.data);
                                     },
                                     child: Text(
-                                      "${data.followers!.length}",
+                                      "${model.data!.followers!.length}",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: bold,
@@ -204,7 +199,7 @@ class _MyProfileState extends State<MyProfile> {
                                   InkWell(
                                     onTap: () {
                                       Navigator.pushNamed(context, '/followers',
-                                          arguments: data);
+                                          arguments: model.data);
                                     },
                                     child: Text(
                                       "Followers",
@@ -224,10 +219,10 @@ class _MyProfileState extends State<MyProfile> {
                                     onTap: () {
                                       Navigator.pushNamed(
                                           context, '/followings',
-                                          arguments:data);
+                                          arguments: model.data);
                                     },
                                     child: Text(
-                                      "${data.following!.length}",
+                                      "${model.data!.following!.length}",
                                       style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: bold,
@@ -238,7 +233,7 @@ class _MyProfileState extends State<MyProfile> {
                                     onTap: () {
                                       Navigator.pushNamed(
                                           context, '/followings',
-                                          arguments: data);
+                                          arguments: model.data);
                                     },
                                     child: Text(
                                       "Followings",
@@ -260,7 +255,7 @@ class _MyProfileState extends State<MyProfile> {
                           margin: const EdgeInsets.symmetric(
                               horizontal: defaultMargin),
                           child: Text(
-                            "${data.fullname}",
+                            "${model.data!.fullname}",
                             style: TextStyle(fontWeight: bold, fontSize: 18),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
@@ -268,11 +263,11 @@ class _MyProfileState extends State<MyProfile> {
                         ),
                         const SizedBox(height: 5),
                         Container(
-                          width: 200, 
-                          margin: const EdgeInsets.symmetric (
+                          width: 200,
+                          margin: const EdgeInsets.symmetric(
                               horizontal: defaultMargin),
                           child: Text(
-                            "${data.story}",
+                            "${model.data!.story}",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: normal,
@@ -300,8 +295,9 @@ class _MyProfileState extends State<MyProfile> {
                                   onPressed: () {
                                     Navigator.pushNamed(
                                         context, '/editprofile',
-                                        arguments: data);
+                                        arguments: model.data);
                                         
+
                                   },
                                   child: const Text(
                                     "Edit Profile",
@@ -490,8 +486,11 @@ class _MyProfileState extends State<MyProfile> {
               ),
             ),
           );
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }
-    
-
-
