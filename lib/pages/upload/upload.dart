@@ -88,13 +88,16 @@ class _UploadState extends State<Upload> {
                             AspectRatio( 
                               aspectRatio: 1,
                               child: Container(
+                                key:  const Key('image'),
                                 decoration: BoxDecoration(
+                                
                             
                                   image: _image != null
                                       ? DecorationImage(
                                           image: FileImage(_image!),
                                           fit: BoxFit.cover)
                                       : const DecorationImage(
+                                        
                                           image: AssetImage(
                                               'assets/images/noImageSelected.jpg',
                                               
@@ -104,6 +107,7 @@ class _UploadState extends State<Upload> {
                             
                             
                                 child: InkWell(
+                                  key: const Key('inkwell'),
                                   onTap: () {
                                     showModalBottomSheet(
                                         context: context,
@@ -127,8 +131,11 @@ class _UploadState extends State<Upload> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(
+                          key:  Key('sizedbox'),
+                          height: 20),
                         TextFormField(
+                          key: const Key('content'),
                           onSaved: (value) {
                             content = value!;
                           },
@@ -140,6 +147,7 @@ class _UploadState extends State<Upload> {
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
+                          key: const Key('postButton'),
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50),
                           ),

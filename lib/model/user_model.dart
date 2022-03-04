@@ -39,7 +39,7 @@ class UserModel {
       this.iV});
 
   UserModel.fromJson(Map<String, dynamic> json) {
-    json = json['user'];
+    // json = json['user'];
     sId = json['_id'];
     fullname = json['fullname'];
     username = json['username'];

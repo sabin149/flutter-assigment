@@ -76,7 +76,7 @@ class HttpConnectPost {
     }
   }
 
-  static Future<List<GetDiscoverPostsModel>> getDiscoverPosts() async {
+   Future<List<GetDiscoverPostsModel>> getDiscoverPosts() async {
     final response = await http.get(Uri.parse(Config.apiURL + "post_discover/"),
         headers: {'Authorization': Config.token});
     try {

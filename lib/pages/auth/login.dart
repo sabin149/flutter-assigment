@@ -62,6 +62,7 @@ class _LoginState extends State<Login> {
                       height: 30,
                     ),
                     Container(
+                      key: const Key('container'),
                       height: 50,
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -74,6 +75,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       child: TextFormField(
+                       key:const ValueKey("email"),
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -117,6 +119,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                       child: TextFormField(
+                        key:const ValueKey("password"),
                         controller: _passwordController,
                         keyboardType: TextInputType.text,
                         obscureText: !_isHidePassword,
@@ -165,6 +168,7 @@ class _LoginState extends State<Login> {
                       height: 45,
                       width: double.infinity,
                       child: ElevatedButton(
+                        key:const ValueKey("loginButton"),
                         style: ElevatedButton.styleFrom(
                           primary: _isPasswordValid && _isEmailValid
                               ? blueColor
