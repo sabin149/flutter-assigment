@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:snippet_coder_utils/ProgressHUD.dart';
 import '../shared/themes.dart';
 import '../shared/widgets/persistent_header.dart';
-import '../upload.dart';
+import '../upload/upload.dart';
 import '/model/user_model.dart';
 import '../../model/post_model.dart';
 import '../../services/httpuser.dart';

@@ -10,7 +10,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HttpConnectUser {
   String baseurl = Config.apiURL;
   static String authtoken = '';
-
   SharedPreferences? prefs;
 
   Future<String> registerUser(User user) async {
@@ -89,7 +88,7 @@ class HttpConnectUser {
 
  Future<List<UserModel>> searchUser(String username) async {
     final response = await get(
-        Uri.parse(Config.apiURL + "search/" + username),
+        Uri.parse(Config.apiURL + "search?username=" + username),
         headers: {'Authorization': Config.token});
     try {
    
@@ -176,7 +175,6 @@ Future<String> updateUser(UpdateUserModel user) async {
         body: userMap);
   
     try {
-      // print(response.body);
       if (response.statusCode == 200) {
         jsonDecode(response.body);
         return "true";

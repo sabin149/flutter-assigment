@@ -6,7 +6,7 @@ import '../../../model/user_model.dart';
 import '../../../services/httpuser.dart';
 import '../../shared/themes.dart';
 import '../../shared/widgets/persistent_header.dart';
-import '../../upload.dart';
+import '../../upload/upload.dart';
 
 class MyProfile extends StatefulWidget {
   const MyProfile({Key? key}) : super(key: key);

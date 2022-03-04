@@ -82,7 +82,7 @@ class _RegisterState extends State<Register> {
                           width: 0.3,
                         ),
                       ),
-                      child: TextField(
+                      child: TextFormField(
                         key:const ValueKey("fullname"),
                         controller: _fullnameController,
                         keyboardType: TextInputType.text,
@@ -115,6 +115,7 @@ class _RegisterState extends State<Register> {
                     ),
                     const SizedBox(height: 15),
                     Container(
+                      key: const ValueKey("container"),
                       height: 50,
                       width: double.infinity,
                       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -127,6 +128,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       child: TextFormField(
+                           key:const ValueKey("username"),
                         controller: _usernameController,
                         keyboardType: TextInputType.text,
                         decoration: InputDecoration(
@@ -170,6 +172,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       child: TextFormField(
+                        key:const ValueKey("email"),
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
@@ -213,6 +216,7 @@ class _RegisterState extends State<Register> {
                         ),
                       ),
                       child: TextFormField(
+                        key:const ValueKey("password"),
                         controller: _passwordController,
                         keyboardType: TextInputType.text,
                         obscureText: !_isHidePassword,
@@ -248,6 +252,7 @@ class _RegisterState extends State<Register> {
                       height: 45,
                       width: double.infinity,
                       child: ElevatedButton(
+                        key:const ValueKey("signupButton"),
                         style: ElevatedButton.styleFrom(
                           primary: _isPasswordValid && _isEmailValid
                               ? blueColor

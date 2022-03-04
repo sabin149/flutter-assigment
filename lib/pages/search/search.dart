@@ -32,24 +32,31 @@ class _SearchState extends State<Search> {
           height: 20,
        ),
         SafeArea(
+          key: const Key('safearea'),
           child: Row(
             children: [
               const SizedBox( 
                 width: 15,
               ),
               Container(
+                key: const Key('container'),
                 width: size.width - 30,
                 height: 45,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
+                  key: const Key('search'),
                   decoration: InputDecoration(
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.black.withOpacity(0.3),
+                      prefixIcon: InkWell(
+                        key: const Key('searchButton'),
+                        onTap: () {},
+                        child: Icon(
+                          Icons.search,
+                          color: Colors.black.withOpacity(0.3),
+                        ),
                       )),
                   style: TextStyle(color: blackColor.withOpacity(0.3)),
                   cursorColor: blackColor.withOpacity(0.3),

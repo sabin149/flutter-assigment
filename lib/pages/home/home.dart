@@ -41,7 +41,7 @@ class _HomeState extends State<Home> {
             ),
             onPressed: () { 
               Navigator.pushNamed(context, "/settings",
-              arguments: widget.post 
+
               );
              
             }, 

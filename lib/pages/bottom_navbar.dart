@@ -5,7 +5,7 @@ import 'package:frontend/pages/home/home.dart';
 import 'package:frontend/pages/profile/widgets/profile.dart';
 import 'package:frontend/pages/search/search.dart';
 import 'package:frontend/pages/shared/themes.dart';
-import 'package:frontend/pages/upload.dart';
+import 'package:frontend/pages/upload/upload.dart';
 import 'package:frontend/services/httpuser.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
@@ -99,6 +99,7 @@ class _BottomNavigationbarState extends State<BottomNavigationbar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key:const Key('scaffold'),
       body: _widgetOption.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: blackColor,
