@@ -28,23 +28,24 @@ class _MyProfileState extends State<MyProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: ProgressHUD(
-        child: loadUserDetails(Config.userId),
+        child: loadUserDetails(Config.userId ),
         inAsyncCall: isApiCallProcess,
         opacity: 0.3,
         key: UniqueKey(),
       ),
-    );
-  }
+    ); 
+  }  
 
   Widget loadUserDetails(userid) {
+
     return FutureBuilder(
       future: HttpConnectUser().getUserDetails(userid),
       builder: (
         BuildContext context,
         AsyncSnapshot<UserModel?> model,
       ) {
+
         if (model.hasData) {
           return DefaultTabController(
             length: 2,
