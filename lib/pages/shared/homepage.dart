@@ -9,7 +9,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   String? token;
 
   getToken() async {
@@ -34,7 +33,6 @@ class _HomePageState extends State<HomePage> {
        Future.delayed(Duration.zero, () {
         Navigator.pushReplacementNamed(context, '/login');
       });
-      // return const Scaffold();
     } else if (token == "") {
       Future.delayed(Duration.zero, () {
         Navigator.pushReplacementNamed(context, '/login');

@@ -23,14 +23,13 @@ class PostItem extends StatefulWidget {
 class _PostItemState extends State<PostItem> {
   bool _isSaved = false;
 
-  // String? postId;
-  // String? postAvatar; 
-  // String? postUsername;
-  // String? postLikeCount;
-  // String? postContent;
-  // String? postCommentCount;
+  String? postId;
+  String? postAvatar; 
+  String? postUsername;
+  String? postLikeCount;
+  String? postContent;
+  String? postCommentCount;
  
-// Future.delayed(const Duration(seconds: 4), () => 'Large Latte');
 
  insertPostData(PostEntity postdta) async {
 
@@ -74,6 +73,8 @@ try {
       _isSaved = !_isSaved;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -134,9 +135,11 @@ PostEntity postdta=PostEntity(
               child: Text(
                 "${widget.post!.user!.username}",
                 style: TextStyle(
+                
                     color: blackColor.withOpacity(.8),
                     fontWeight: FontWeight.w400,
-                    fontSize: 21),
+                    fontSize: 21,
+                  fontFamily: "Roboto",),
               ),
             ),
             trailing: InkWell( 
@@ -147,6 +150,7 @@ PostEntity postdta=PostEntity(
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
+                               fontFamily: "Roboto",
                             )),
                         content: const Text(
                             'Are you sure you want to delete this post?'),
@@ -284,7 +288,7 @@ PostEntity postdta=PostEntity(
                 Text(
                   '${widget.post!.likes!.length} likes',
                   style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                      fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Roboto",),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
@@ -293,11 +297,11 @@ PostEntity postdta=PostEntity(
                       Text(
                         "${widget.post!.user!.username}",
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 16, fontFamily: "Roboto",),
                       ),
                       Text(
                         " ${widget.post!.content}",
-                        style: const TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16, fontFamily: "Roboto",),
                       ),
                     ],
                   ),
@@ -309,7 +313,7 @@ PostEntity postdta=PostEntity(
                   },
                   child: Text(
                       "View all ${widget.post!.comments!.length} comments",
-                      style: const TextStyle(fontSize: 16)),
+                      style: const TextStyle(fontSize: 16, fontFamily: "Roboto",)),
                 ),
               ],
             ),

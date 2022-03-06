@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HttpConnectUser {
   String baseurl = Config.apiURL;
   static String authtoken = '';
+  static String userid = '';
   SharedPreferences? prefs;
 
   Future<String> registerUser(User user) async {
@@ -30,7 +31,7 @@ class HttpConnectUser {
     }
   }
 
-  Future<String> loginUsers(String email, String password) async {
+    Future<String> loginUsers(String email, String password) async {
     Map<String, dynamic> loginStudent = {'email': email, 'password': password};
 
     prefs = await SharedPreferences.getInstance();
@@ -70,12 +71,13 @@ class HttpConnectUser {
   Future<UserModel> getUserDetails(String id) async {
     final response = await get(Uri.parse(Config.apiURL + "user/" + id),
         headers: {'Authorization': Config.token});
-    try {
+
+    try { 
       if (response.statusCode == 200) {
         Map<String, dynamic> map = json.decode(response.body);
 
         var user = UserModel.fromJson(map);
-
+  
         return user;
       } else {
         throw Exception('Failed to get the user');

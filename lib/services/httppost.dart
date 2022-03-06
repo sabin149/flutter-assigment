@@ -15,21 +15,22 @@ class HttpConnectPost {
   String baseurl = Config.apiURL;
   String mytoken = Config.token;
    
-
- static decodeToken () async{
+  static decodeToken () async{
   String yourToken = Config.token; 
    Map<String, dynamic> decodedToken = JwtDecoder.decode(yourToken);
-
+ 
   var userId=decodedToken["id"];
+
 
  SharedPreferences  prefs = await SharedPreferences.getInstance();
    prefs.setString('userId', userId); 
-
 } 
 
   Future<List<PostModel>> getPosts() async {
     final response = await http.get(Uri.parse(baseurl + "posts/"),
         headers: {'Authorization': mytoken});
+
+        decodeToken();
           
     try {
       if (response.statusCode == 200) {
@@ -43,7 +44,7 @@ class HttpConnectPost {
     }
   }
 
-   Future<List<GetUserPostsModel>> getUserPosts(String id) async {
+  Future<List<GetUserPostsModel>> getUserPosts(String id) async {
     final response = await http.get(
         Uri.parse(Config.apiURL + "user_posts/" + id),
         headers: {'Authorization': Config.token});
@@ -76,7 +77,7 @@ class HttpConnectPost {
     }
   }
 
-   Future<List<GetDiscoverPostsModel>> getDiscoverPosts() async {
+  Future<List<GetDiscoverPostsModel>> getDiscoverPosts() async {
     final response = await http.get(Uri.parse(Config.apiURL + "post_discover/"),
         headers: {'Authorization': Config.token});
     try {
@@ -143,6 +144,7 @@ class HttpConnectPost {
 
     
   }
+  
   Future<String> updatePosts(String content, String userId) async {
     Map<String, dynamic> postMap = {
       'content': content, 
@@ -254,4 +256,5 @@ class HttpConnectPost {
       throw Exception('Failed to unsave posts');
     }
   }
+
 }
